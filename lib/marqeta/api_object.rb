@@ -15,14 +15,14 @@ module Marqeta
 
     def method_missing(method_name, *args, &block)
       if respond_to_missing?(method_name)
-        attributes_hash.symbolize_keys[method_name]
+        symbolized_attributes_hash[method_name]
       else
         super
       end
     end
 
     def respond_to_missing?(method_name, include_private = false)
-      method_name.in?(accessible_attributes) || super
+      accessible_attributes.include?(method_name) || super
     end
 
     private
@@ -30,8 +30,11 @@ module Marqeta
     attr_accessor :attributes_hash
 
     def accessible_attributes
-      %i(token)
+      [:token]
     end
 
+    def symbolized_attributes_hash
+      Hash[attributes_hash.map { |k, v| [k.to_sym, v] }]
+    end
   end
 end
