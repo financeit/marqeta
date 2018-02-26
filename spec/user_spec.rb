@@ -20,14 +20,9 @@ describe Marqeta::User do
     describe '#cards' do
       let(:cards) { user.cards }
 
-      it 'contains the correct number of Marqeta::Card objects' do
+      it 'contains the correct Marqeta::Card objects' do
         expect(cards.length).to eq(2)
-        cards.each do |card|
-          expect(card.class).to eq(Marqeta::Card)
-        end
-      end
-
-      it 'has expected tokens' do
+        expect(cards.map(&:class).uniq).to eq([Marqeta::Card])
         expect(cards.map(&:token)).to eq([active_token, inactive_token])
       end
     end
