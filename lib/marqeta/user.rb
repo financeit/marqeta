@@ -9,10 +9,8 @@ module Marqeta
       response['data'].map { |card_hash| Card.new(card_hash) }
     end
 
-    def active_card(with_pan: false)
-      card = cards.detect(&:active?)
-      card.retrieve_pan if with_pan
-      card
+    def active_card
+      cards.detect(&:active?)
     end
 
     def gpa_balance
