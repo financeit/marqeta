@@ -1,3 +1,6 @@
+require 'json'
+require 'rest-client'
+
 module Marqeta
   class ApiCaller
     def initialize(endpoint)

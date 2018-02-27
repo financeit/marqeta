@@ -1,6 +1,5 @@
 module Marqeta
   class Card < ApiObject
-
     ACTIVE_STATE = 'ACTIVE'.freeze
 
     def self.endpoint
@@ -8,7 +7,7 @@ module Marqeta
     end
 
     def self.from_pan(pan)
-      result = ApiCaller.new("cards/getbypan").post(pan: pan)
+      result = ApiCaller.new('cards/getbypan').post(pan: pan)
       new(token: result['card_token'])
     end
 
@@ -23,7 +22,7 @@ module Marqeta
     private
 
     def accessible_attributes
-      super + %i(state pan expiration_time)
+      super + %i[state pan expiration_time]
     end
   end
 end

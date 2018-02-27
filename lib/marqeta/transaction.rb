@@ -1,6 +1,5 @@
 module Marqeta
   class Transaction < ApiObject
-
     PENDING_STATE = 'PENDING'.freeze
 
     def self.endpoint
@@ -14,11 +13,7 @@ module Marqeta
         state: 'ALL'
       )
       result = ApiCaller.new("transactions?#{params_string}").get
-      result['data'].map{|transaction_hash| new(transaction_hash)}
-    end
-
-    def amount
-      attributes_hash['amount']
+      result['data'].map { |transaction_hash| new(transaction_hash) }
     end
 
     def pending?
@@ -28,7 +23,7 @@ module Marqeta
     private
 
     def accessible_attributes
-      super + %i(state user_token amount)
+      super + %i[state user_token amount]
     end
   end
 end
