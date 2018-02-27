@@ -1,6 +1,5 @@
 module Marqeta
   class ApiCaller
-
     def initialize(endpoint)
       @endpoint = endpoint
     end
@@ -22,16 +21,6 @@ module Marqeta
       response_hash
     end
 
-    # TODO: Move this to be set in gem initializer when we convert this to a gem
-    # https://stackoverflow.com/questions/8693158/how-can-i-write-to-rails-logger-within-my-gem
-    # https://github.com/restforce/restforce#loggingdebugginginstrumenting
-    def logger
-      return @@logger if defined?(@@logger)
-      @@logger = Logger.new(Rails.root.join('log', 'marqeta.log'))
-      @@logger.formatter = Logger::Formatter.new
-      @@logger
-    end
-
     private
 
     attr_reader :endpoint
@@ -42,6 +31,10 @@ module Marqeta
         Marqeta.configuration.username,
         Marqeta.configuration.password
       )
+    end
+
+    def logger
+      Marqeta.configuration.logger
     end
   end
 end
