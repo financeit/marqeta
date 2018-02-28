@@ -28,14 +28,17 @@ describe Marqeta::Transaction do
       end
 
       it 'creates an ApiCaller with properly formatted endpoint' do
-        formatted_time = '2018-01-01T00%3A00%3A00.000-0500'
-        type = 'authorization'
-        state = 'ALL'
+        params = {
+          start_date: '2018-01-01T00:00:00.000-0500',
+          type: 'authorization',
+          state: 'ALL'
+        }
 
         expect(Marqeta::ApiCaller)
           .to(receive(:new))
-          .with("transactions?start_date=#{formatted_time}&type=#{type}&state=#{state}")
+          .with('transactions', params)
           .and_call_original
+
         since
       end
 

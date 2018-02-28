@@ -3,25 +3,24 @@ require 'rest-client'
 
 module Marqeta
   class ApiCaller
-    def initialize(endpoint)
+    def initialize(endpoint, params = {})
       @endpoint = endpoint
+      @endpoint += "?#{URI.encode_www_form(params)}" if params.any?
     end
 
     def get
       logger.info("GET: #{endpoint}")
-      response_hash = JSON.parse(resource.get)
-      logger.info("Response: #{response_hash.to_json}")
-      response_hash
+      response = resource.get
+      logger.info("Response: #{response}")
+      JSON.parse(response)
     end
 
     def post(payload)
       json_payload = payload.to_json
       logger.info "POST: #{endpoint}, #{json_payload}"
-      response_hash = JSON.parse(
-        resource.post(json_payload, content_type: 'application/json')
-      )
-      logger.info("Response: #{response_hash.to_json}")
-      response_hash
+      response = resource.post(json_payload, content_type: 'application/json')
+      logger.info("Response: #{response}")
+      JSON.parse(response)
     end
 
     private

@@ -7,12 +7,12 @@ module Marqeta
     end
 
     def self.since(start_time)
-      params_string = URI.encode_www_form(
+      params = {
         start_date: start_time.strftime('%Y-%m-%dT%H:%M:%S.%L%z'),
         type: 'authorization',
         state: 'ALL'
-      )
-      result = ApiCaller.new("transactions?#{params_string}").get
+      }
+      result = ApiCaller.new('transactions', params).get
       result['data'].map { |transaction_hash| new(transaction_hash) }
     end
 
