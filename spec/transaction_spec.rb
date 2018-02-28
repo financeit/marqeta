@@ -4,7 +4,7 @@ describe Marqeta::Transaction do
   describe 'class methods' do
     describe '.since' do
       let(:since) { Marqeta::Transaction.since(start_time) }
-      let(:start_time) { Time.new(2018) }
+      let(:start_time) { Time.new(2018, 1, 1, 0, 0, 0, '-05:00') }
 
       before do
         allow_any_instance_of(Marqeta::ApiCaller)
