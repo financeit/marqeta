@@ -48,6 +48,7 @@ describe Marqeta::ApiObject do
 
   describe 'instance methods' do
     subject(:api_object) { Marqeta::ApiObject.new(attributes_hash) }
+
     let(:attributes_hash) { { a: 1, b: 2, c: 2 } }
 
     describe 'attributes hash' do

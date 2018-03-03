@@ -61,6 +61,7 @@ describe Marqeta::Transaction do
 
   describe 'instance methods' do
     subject(:transaction) { Marqeta::Transaction.new(state: state) }
+
     let(:state) { Marqeta::Transaction::PENDING_STATE }
 
     describe '#pending?' do

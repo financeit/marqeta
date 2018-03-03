@@ -39,6 +39,7 @@ describe Marqeta::Card do
 
   describe 'instance methods' do
     subject(:card) { Marqeta::Card.new(token: card_token, state: state) }
+
     let(:state) { Marqeta::Card::ACTIVE_STATE }
 
     describe '#active?' do
