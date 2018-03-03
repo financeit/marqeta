@@ -47,7 +47,7 @@ describe Marqeta::Transaction do
         since
       end
 
-      it 'returns expected Tranaction objects' do
+      it 'returns expected Transaction objects' do
         transactions = since
         expect(transactions.length).to eq(2)
         expect(transactions.map(&:class).uniq).to eq([Marqeta::Transaction])
