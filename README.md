@@ -1,3 +1,6 @@
+[ ![Codeship Status for
+financeit/marqeta](https://app.codeship.com/projects/b9d56aa0-fec3-0135-5a6d-462e71abe528/status?branch=master)](https://app.codeship.com/projects/279548)
+
 # Marqeta
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/marqeta`. To experiment with that code, run `bin/console` for an interactive prompt.
