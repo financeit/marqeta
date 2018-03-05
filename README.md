@@ -1,8 +1,6 @@
 # Marqeta
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/marqeta`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+An API client library for the [Marqeta API][marqeta_api].
 
 ## Installation
 
@@ -42,3 +40,11 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/financeit/marqeta.
+
+## About Financeit
+
+[Financeit] is a fintech startup based in Toronto, Canada and we're [hiring].
+
+[marqeta_api]: https://www.marqeta.com/api
+[financeit]: https://www.financeit.io/
+[hiring]: https://www.financeit.io/ca/en/careers
