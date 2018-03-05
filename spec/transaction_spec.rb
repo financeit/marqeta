@@ -3,7 +3,6 @@ require 'spec_helper'
 describe Marqeta::Transaction do
   describe 'class methods' do
     describe '.since' do
-      let(:since) { Marqeta::Transaction.since(start_time) }
       let(:start_time) { Time.new(2018, 1, 1, 0, 0, 0, '-05:00') }
 
       before do
@@ -39,22 +38,26 @@ describe Marqeta::Transaction do
           .with('transactions', params)
           .and_call_original
 
-        since
+        fetch_transactions_since
       end
 
       it 'calls get on an ApiCaller' do
         expect_any_instance_of(Marqeta::ApiCaller).to(receive(:get))
-        since
+        fetch_transactions_since
       end
 
-      it 'returns expected Tranaction objects' do
-        transactions = since
+      it 'returns expected Transaction objects' do
+        transactions = fetch_transactions_since
         expect(transactions.length).to eq(2)
         expect(transactions.map(&:class).uniq).to eq([Marqeta::Transaction])
         expect(transactions.map(&:token)).to eq(%w[token1 token2])
         expect(transactions.map(&:state)).to eq(%w[PENDING DECLINED])
         expect(transactions.map(&:user_token)).to eq(%w[user_token1 user_token2])
         expect(transactions.map(&:amount)).to eq([1000, 2000])
+      end
+
+      def fetch_transactions_since
+        Marqeta::Transaction.since(start_time)
       end
     end
   end
@@ -67,13 +70,18 @@ describe Marqeta::Transaction do
     describe '#pending?' do
       let(:pending?) { transaction.pending? }
 
-      it 'returns true if state is pending state' do
-        expect(pending?).to eq(true)
+      context 'if state is pending state' do
+        it 'returns true' do
+          expect(pending?).to eq(true)
+        end
       end
 
-      it 'returns false if state is not pending state' do
-        allow(transaction).to receive(:state).and_return('DECLINED')
-        expect(pending?).to eq(false)
+      context 'if state is not pending state' do
+        let(:state) { 'DECLINED' }
+
+        it 'returns false' do
+          expect(pending?).to eq(false)
+        end
       end
     end
   end
