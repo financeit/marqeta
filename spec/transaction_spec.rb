@@ -46,7 +46,7 @@ describe Marqeta::Transaction do
         fetch_transactions_since
       end
 
-      it 'returns expected Tranaction objects' do
+      it 'returns expected Transaction objects' do
         transactions = fetch_transactions_since
         expect(transactions.length).to eq(2)
         expect(transactions.map(&:class).uniq).to eq([Marqeta::Transaction])
@@ -69,13 +69,18 @@ describe Marqeta::Transaction do
     describe '#pending?' do
       let(:pending?) { transaction.pending? }
 
-      it 'returns true if state is pending state' do
-        expect(pending?).to eq(true)
+      context 'if state is pending state' do
+        it 'returns true' do
+          expect(pending?).to eq(true)
+        end
       end
 
-      it 'returns false if state is not pending state' do
-        allow(transaction).to receive(:state).and_return('DECLINED')
-        expect(pending?).to eq(false)
+      context 'if state is not pending state' do
+        let(:state) { 'DECLINED' }
+
+        it 'returns false' do
+          expect(pending?).to eq(false)
+        end
       end
     end
   end

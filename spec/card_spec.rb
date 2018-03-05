@@ -47,13 +47,18 @@ describe Marqeta::Card do
     describe '#active?' do
       let(:active?) { card.active? }
 
-      it 'returns true if state is active state' do
-        expect(active?).to eq(true)
+      context "when its state is 'active'" do
+        it 'returns true' do
+          expect(active?).to be(true)
+        end
       end
 
-      it 'returns false if state is not active state' do
-        allow(card).to receive(:state).and_return('inactive')
-        expect(active?).to eq(false)
+      context "when its state is something other than 'active'" do
+        let(:state) { 'inactive' }
+
+        it 'returns false' do
+          expect(active?).to be(false)
+        end
       end
     end
 
