@@ -6,8 +6,6 @@ describe Marqeta::Card do
 
   describe 'class methods' do
     describe '.from_pan' do
-      let(:from_pan) { Marqeta::Card.from_pan(pan) }
-
       before do
         allow_any_instance_of(Marqeta::ApiCaller)
           .to(receive(:post))
@@ -19,21 +17,26 @@ describe Marqeta::Card do
           .to(receive(:new))
           .with('cards/getbypan')
           .and_call_original
-        from_pan
+        fetch_card_from_pan
       end
 
       it 'posts the pan to an ApiCaller' do
         expect_any_instance_of(Marqeta::ApiCaller)
           .to(receive(:post))
           .with(pan: pan)
-        from_pan
+        fetch_card_from_pan
       end
 
       it 'returns a Card with token set correctly' do
-        card = from_pan
+        card = fetch_card_from_pan
         expect(card).to be_a(Marqeta::Card)
         expect(card.token).to eq(card_token)
       end
+
+    end
+
+    def fetch_card_from_pan
+      Marqeta::Card.from_pan(pan)
     end
   end
 
