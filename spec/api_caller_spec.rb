@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Marqeta::ApiCaller do
   subject(:api_caller) { Marqeta::ApiCaller.new(endpoint, params) }
+
   let(:endpoint) { 'foo' }
   let(:params) { {} }
   let(:response_hash) { { 'a' => 1, 'b' => 2 } }
@@ -24,6 +25,7 @@ describe Marqeta::ApiCaller do
 
   describe '#get' do
     let(:get) { api_caller.get }
+
     before do
       allow_any_instance_of(RestClient::Resource)
         .to(receive(:get))

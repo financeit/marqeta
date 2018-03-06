@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["dubroe"]
   spec.email         = ["elan.dubrofsky@gmail.com"]
 
-  spec.summary       = %q{Integration with Marqeta API}
+  spec.summary       = 'Integration with Marqeta API'
   # spec.description   = %q{TODO: Write a longer description or delete this line.}
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
 
@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
       "public gem pushes."
   end
 
-  spec.files         = `git ls-files -z`.split("\x0").reject do |f|
+  spec.files = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
   end
   spec.bindir        = "exe"
@@ -30,10 +30,11 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_development_dependency "bundler", "~> 1.16"
+  spec.add_development_dependency "pry-byebug"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.5"
-  spec.add_development_dependency "pry-byebug"
+  spec.add_development_dependency "rubocop", "~> 0.52.1"
+  spec.add_development_dependency "rubocop-rspec", "1.23.0"
 
   spec.add_dependency "rest-client", "~> 1.8"
-
 end
