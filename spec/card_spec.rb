@@ -32,7 +32,6 @@ describe Marqeta::Card do
         expect(card).to be_a(Marqeta::Card)
         expect(card.token).to eq(card_token)
       end
-
     end
 
     def fetch_card_from_pan
