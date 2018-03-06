@@ -2,8 +2,14 @@ require 'spec_helper'
 
 describe Marqeta::Transaction do
   describe 'class methods' do
-    describe '.since' do
-      let(:start_time) { Time.new(2018, 1, 1, 0, 0, 0, '-05:00') }
+    describe '.index' do
+      let(:params) do
+        {
+          start_date: '2018-01-01T00:00:00.000-0500',
+          type: 'authorization',
+          state: 'ALL'
+        }
+      end
 
       before do
         allow_any_instance_of(Marqeta::ApiCaller)
@@ -27,27 +33,21 @@ describe Marqeta::Transaction do
       end
 
       it 'creates an ApiCaller with properly formatted endpoint' do
-        params = {
-          start_date: '2018-01-01T00:00:00.000-0500',
-          type: 'authorization',
-          state: 'ALL'
-        }
-
         expect(Marqeta::ApiCaller)
           .to(receive(:new))
           .with('transactions', params)
           .and_call_original
 
-        fetch_transactions_since
+        fetch_transactions
       end
 
       it 'calls get on an ApiCaller' do
         expect_any_instance_of(Marqeta::ApiCaller).to(receive(:get))
-        fetch_transactions_since
+        fetch_transactions
       end
 
       it 'returns expected Transaction objects' do
-        transactions = fetch_transactions_since
+        transactions = fetch_transactions
         expect(transactions.length).to eq(2)
         expect(transactions.map(&:class).uniq).to eq([Marqeta::Transaction])
         expect(transactions.map(&:token)).to eq(%w[token1 token2])
@@ -56,8 +56,8 @@ describe Marqeta::Transaction do
         expect(transactions.map(&:amount)).to eq([1000, 2000])
       end
 
-      def fetch_transactions_since
-        Marqeta::Transaction.since(start_time)
+      def fetch_transactions
+        Marqeta::Transaction.index(params)
       end
     end
   end

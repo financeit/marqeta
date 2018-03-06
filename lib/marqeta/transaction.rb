@@ -6,12 +6,7 @@ module Marqeta
       'simulate/authorization'
     end
 
-    def self.since(start_time)
-      params = {
-        start_date: start_time.strftime('%Y-%m-%dT%H:%M:%S.%L%z'),
-        type: 'authorization',
-        state: 'ALL'
-      }
+    def self.index(params)
       result = ApiCaller.new('transactions', params).get
       result['data'].map { |transaction_hash| new(transaction_hash) }
     end
@@ -23,7 +18,7 @@ module Marqeta
     private
 
     def accessible_attributes
-      super + %i[state user_token amount]
+      super + %i[state user_token amount created_time card_acceptor]
     end
   end
 end
