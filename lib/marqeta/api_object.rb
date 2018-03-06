@@ -1,6 +1,5 @@
 module Marqeta
   class ApiObject
-
     def initialize(attributes_hash)
       self.attributes_hash = attributes_hash
     end

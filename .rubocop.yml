@@ -1,0 +1,12 @@
+require: rubocop-rspec
+
+inherit_from: .rubocop_todo.yml
+
+RSpec/DescribedClass:
+  EnforcedStyle: explicit
+Style/StringLiterals:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Metrics/LineLength:
+  Max: 120
