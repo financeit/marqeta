@@ -3,13 +3,8 @@ require 'spec_helper'
 describe Marqeta::Transaction do
   describe 'class methods' do
     describe '.index' do
-      let(:params) do
-        {
-          start_date: '2018-01-01T00:00:00.000-0500',
-          type: 'authorization',
-          state: 'ALL'
-        }
-      end
+      let(:start_date) { Time.new(2018, 1, 1, 0, 0, 0, '-05:00') }
+      let(:user_token) { 'USER_TOKEN' }
 
       before do
         allow_any_instance_of(Marqeta::ApiCaller)
@@ -20,22 +15,37 @@ describe Marqeta::Transaction do
                 'token' => 'token1',
                 'state' => Marqeta::Transaction::PENDING_STATE,
                 'user_token' => 'user_token1',
-                'amount' => 1000
+                'amount' => 1000,
+                'created_time' => '2018-01-01T00:00:00Z',
+                'card_acceptor' => {
+                  'name' => 'Marqeta'
+                }
               },
               {
                 'token' => 'token2',
                 'state' => 'DECLINED',
                 'user_token' => 'user_token2',
-                'amount' => 2000
+                'amount' => 2000,
+                'created_time' => '2018-01-02T00:00:00Z',
+                'card_acceptor' => {
+                  'name' => 'Financeit'
+                }
               }
             ]
           )
       end
 
-      it 'creates an ApiCaller with properly formatted endpoint' do
+      it 'creates an ApiCaller with expected params' do
+        expected_params = {
+          type: 'authorization',
+          state: 'ALL',
+          start_date: '2018-01-01T00:00:00.000-0500',
+          user_token: user_token
+        }
+
         expect(Marqeta::ApiCaller)
           .to(receive(:new))
-          .with('transactions', params)
+          .with('transactions', expected_params)
           .and_call_original
 
         fetch_transactions
@@ -54,10 +64,12 @@ describe Marqeta::Transaction do
         expect(transactions.map(&:state)).to eq(%w[PENDING DECLINED])
         expect(transactions.map(&:user_token)).to eq(%w[user_token1 user_token2])
         expect(transactions.map(&:amount)).to eq([1000, 2000])
+        expect(transactions.map(&:created_time)).to eq(['2018-01-01T00:00:00Z', '2018-01-02T00:00:00Z'])
+        expect(transactions.map(&:card_acceptor).map(&:name)).to eq(%w[Marqeta Financeit])
       end
 
       def fetch_transactions
-        Marqeta::Transaction.index(params)
+        Marqeta::Transaction.index(start_date: start_date, user_token: user_token)
       end
     end
   end
