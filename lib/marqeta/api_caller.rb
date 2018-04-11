@@ -10,17 +10,27 @@ module Marqeta
 
     def get
       logger.info("GET: #{endpoint}")
-      response = resource.get
-      logger.info("Response: #{response}")
-      JSON.parse(response)
+      begin
+        response = resource.get
+        handle_successful_response response
+      rescue RestClient::ExceptionWithResponse => e
+        handle_exception_with_response e
+      rescue *HttpError::ERROR_LIST => e
+        handle_http_error e
+      end
     end
 
     def post(payload)
       json_payload = payload.to_json
       logger.info "POST: #{endpoint}, #{json_payload}"
-      response = resource.post(json_payload, content_type: 'application/json')
-      logger.info("Response: #{response}")
-      JSON.parse(response)
+      begin
+        response = resource.post(json_payload, content_type: 'application/json')
+        handle_successful_response response
+      rescue RestClient::ExceptionWithResponse => e
+        handle_exception_with_response e
+      rescue *HttpError::ERROR_LIST => e
+        handle_http_error e
+      end
     end
 
     private
@@ -37,6 +47,23 @@ module Marqeta
 
     def logger
       Marqeta.configuration.logger
+    end
+
+    def handle_successful_response(response)
+      logger.info("Response: #{response}")
+      JSON.parse(response)
+    end
+
+    def handle_exception_with_response(e)
+      error = ApiError.new(e.response)
+      logger.error(error)
+      raise error
+    end
+
+    def handle_http_error(e)
+      error = HttpError.new("#{e.class}: #{e.message}")
+      logger.error(error)
+      raise error
     end
   end
 end
