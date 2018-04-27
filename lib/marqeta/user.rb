@@ -12,10 +12,5 @@ module Marqeta
     def active_card
       cards.detect(&:active?)
     end
-
-    def gpa_balance
-      response = ApiCaller.new("balances/#{token}").get
-      GpaBalance.new(response['gpa'])
-    end
   end
 end

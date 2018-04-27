@@ -36,23 +36,4 @@ describe Marqeta::User do
       end
     end
   end
-
-  describe '#gpa_balance' do
-    let(:gpa_balance) { user.gpa_balance }
-
-    before do
-      allow_any_instance_of(Marqeta::ApiCaller).to receive(:get).and_return(
-        'gpa' => {
-          'ledger_balance' => 1000,
-          'available_balance' => 2000
-        }
-      )
-    end
-
-    it 'returns Marqeta::GpaBalance object with expected balances' do
-      expect(gpa_balance.class).to eq(Marqeta::GpaBalance)
-      expect(gpa_balance.ledger_balance).to eq(1000)
-      expect(gpa_balance.available_balance).to eq(2000)
-    end
-  end
 end
