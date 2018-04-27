@@ -22,7 +22,7 @@ module Marqeta
     private
 
     def accessible_attributes
-      super + %i[state pan expiration_time]
+      super + %i[state pan expiration_time card_product_token]
     end
   end
 end
