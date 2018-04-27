@@ -12,6 +12,11 @@ module Marqeta
       raise 'must be implemented in subclass'
     end
 
+    def self.object_list(klass, endpoint)
+      response = ApiCaller.new(endpoint).get
+      response['data'].map { |data_hash| klass.new(data_hash) }
+    end
+
     def method_missing(method_name, *args, &block)
       if respond_to_missing?(method_name)
         symbolized_attributes_hash[method_name]
