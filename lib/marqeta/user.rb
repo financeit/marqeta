@@ -12,8 +12,12 @@ module Marqeta
       cards.detect(&:active?)
     end
 
-    def create_child
-      self.class.api_create(uses_parent_account: true, parent_token: token)
+    def perform_kyc(extra_params = {})
+      Kyc.api_create(extra_params.merge(user_token: token))
+    end
+
+    def create_child(extra_params = {})
+      self.class.api_create(extra_params.merge(uses_parent_account: true, parent_token: token))
     end
 
     def children
