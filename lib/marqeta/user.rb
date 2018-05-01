@@ -21,7 +21,9 @@ module Marqeta
     end
 
     def metadata_attribute(key)
-      attributes_hash['metadata'][key.to_s]
+      metadata = symbolized_attributes_hash[:metadata]
+      return nil if metadata.nil?
+      metadata[key.to_s]
     end
   end
 end
