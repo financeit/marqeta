@@ -8,10 +8,6 @@ module Marqeta
       ApiObject.object_list(Card, "cards/user/#{token}")
     end
 
-    def active_card
-      cards.detect(&:active?)
-    end
-
     def perform_kyc(extra_params = {})
       Kyc.api_create(extra_params.merge(user_token: token))
     end
@@ -22,6 +18,10 @@ module Marqeta
 
     def children
       ApiObject.object_list(User, "users/#{token}/children")
+    end
+
+    def metadata_attribute(key)
+      attributes_hash['metadata'][key.to_s]
     end
   end
 end
