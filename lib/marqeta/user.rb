@@ -25,5 +25,11 @@ module Marqeta
       return nil if metadata.nil?
       metadata[key.to_s]
     end
+
+    private
+
+    def accessible_attributes
+      super + %i[created_time]
+    end
   end
 end
