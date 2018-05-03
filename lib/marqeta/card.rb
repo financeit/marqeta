@@ -12,7 +12,7 @@ module Marqeta
     end
 
     def active?
-      state == ACTIVE_STATE
+      state == ACTIVE_STATE && Time.now < Time.parse(expiration_time)
     end
 
     def retrieve_pan
