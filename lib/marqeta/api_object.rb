@@ -19,7 +19,7 @@ module Marqeta
 
     def method_missing(method_name, *args, &block)
       if respond_to_missing?(method_name)
-        symbolized_attributes_hash[method_name]
+        attribute_value(method_name)
       else
         super
       end
@@ -34,11 +34,21 @@ module Marqeta
     attr_accessor :attributes_hash
 
     def accessible_attributes
-      [:token]
+      [:token] + time_attributes
+    end
+
+    def time_attributes
+      []
     end
 
     def symbolized_attributes_hash
       Hash[attributes_hash.map { |k, v| [k.to_sym, v] }]
+    end
+
+    def attribute_value(attribute)
+      value = symbolized_attributes_hash[attribute]
+      value = Time.parse(value) if time_attributes.include?(attribute)
+      value
     end
   end
 end

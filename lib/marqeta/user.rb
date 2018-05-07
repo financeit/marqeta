@@ -28,8 +28,8 @@ module Marqeta
 
     private
 
-    def accessible_attributes
-      super + %i[created_time]
+    def time_attributes
+      %i[created_time]
     end
   end
 end

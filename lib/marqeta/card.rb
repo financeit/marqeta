@@ -12,7 +12,7 @@ module Marqeta
     end
 
     def active?
-      state == ACTIVE_STATE && Time.now < Time.parse(expiration_time)
+      state == ACTIVE_STATE && Time.now < expiration_time
     end
 
     def retrieve_pan
@@ -22,7 +22,11 @@ module Marqeta
     private
 
     def accessible_attributes
-      super + %i[state pan expiration_time card_product_token]
+      super + %i[state pan card_product_token]
+    end
+
+    def time_attributes
+      %i[expiration_time]
     end
   end
 end

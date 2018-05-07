@@ -64,7 +64,7 @@ describe Marqeta::Transaction do
         expect(transactions.map(&:state)).to eq(%w[PENDING DECLINED])
         expect(transactions.map(&:user_token)).to eq(%w[user_token1 user_token2])
         expect(transactions.map(&:amount)).to eq([1000, 2000])
-        expect(transactions.map(&:created_time)).to eq(['2018-01-01T00:00:00Z', '2018-01-02T00:00:00Z'])
+        expect(transactions.map(&:created_time)).to eq([Time.parse('2018-01-01T00:00:00Z'), Time.parse('2018-01-02T00:00:00Z')])
         expect(transactions.map(&:card_acceptor).map(&:name)).to eq(%w[Marqeta Financeit])
       end
 
