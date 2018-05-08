@@ -12,9 +12,14 @@ module Marqeta
       raise 'must be implemented in subclass'
     end
 
+    def self.object_list(klass, endpoint)
+      response = ApiCaller.new(endpoint).get
+      response['data'].map { |data_hash| klass.new(data_hash) }
+    end
+
     def method_missing(method_name, *args, &block)
       if respond_to_missing?(method_name)
-        symbolized_attributes_hash[method_name]
+        attribute_value(method_name)
       else
         super
       end
@@ -29,11 +34,21 @@ module Marqeta
     attr_accessor :attributes_hash
 
     def accessible_attributes
-      [:token]
+      [:token] + accessible_time_attributes
+    end
+
+    def accessible_time_attributes
+      []
     end
 
     def symbolized_attributes_hash
       Hash[attributes_hash.map { |k, v| [k.to_sym, v] }]
+    end
+
+    def attribute_value(attribute)
+      value = symbolized_attributes_hash[attribute]
+      value = Time.parse(value) if accessible_time_attributes.include?(attribute)
+      value
     end
   end
 end

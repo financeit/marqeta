@@ -31,7 +31,11 @@ module Marqeta
     private
 
     def accessible_attributes
-      super + %i[state user_token amount created_time]
+      super + %i[state user_token amount]
+    end
+
+    def accessible_time_attributes
+      %i[created_time]
     end
 
     def card_acceptor_hash

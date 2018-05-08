@@ -44,6 +44,35 @@ describe Marqeta::ApiObject do
         expect(api_create).to(be_a(Marqeta::ApiObject))
       end
     end
+
+    describe '.object_list' do
+      let(:response_hash) { { 'data' => data_array } }
+      let(:data_array) do
+        [
+          { token: 'token1' },
+          { token: 'token2' }
+        ]
+      end
+      let(:endpoint) { 'endpoint' }
+      let(:api_caller) { instance_double(Marqeta::ApiCaller) }
+
+      before do
+        allow(Marqeta::ApiCaller)
+          .to(receive(:new))
+          .with(endpoint)
+          .and_return(api_caller)
+
+        allow(api_caller)
+          .to(receive(:get))
+          .and_return(response_hash)
+      end
+
+      it 'returns array of objects with expected values' do
+        objects = Marqeta::ApiObject.object_list(Marqeta::User, endpoint)
+        expect(objects.map(&:class).uniq).to eq([Marqeta::User])
+        expect(objects.map(&:token)).to eq(%w[token1 token2])
+      end
+    end
   end
 
   describe 'instance methods' do

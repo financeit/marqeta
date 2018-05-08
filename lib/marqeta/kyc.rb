@@ -1,7 +1,7 @@
 module Marqeta
-  class GpaOrder < ApiObject
+  class Kyc < ApiObject
     def self.endpoint
-      'gpaorders'
+      'kyc'
     end
   end
 end

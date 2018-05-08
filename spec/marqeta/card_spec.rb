@@ -40,21 +40,42 @@ describe Marqeta::Card do
   end
 
   describe 'instance methods' do
-    subject(:card) { Marqeta::Card.new(token: card_token, state: state) }
+    subject(:card) { Marqeta::Card.new(token: card_token, state: state, expiration_time: expiration_time) }
 
     let(:state) { Marqeta::Card::ACTIVE_STATE }
+    let(:expiration_time) { not_expired_time }
+    let(:not_expired_time) { (Time.now + 3600).to_s }
 
     describe '#active?' do
       let(:active?) { card.active? }
+      let(:expired_time) { (Time.now - 3600).to_s }
+      let(:inactive_state) { 'inactive' }
 
-      context "when its state is 'active'" do
+      context "when card state is 'active' and card has not expired" do
         it 'returns true' do
           expect(active?).to be(true)
         end
       end
 
-      context "when its state is something other than 'active'" do
-        let(:state) { 'inactive' }
+      context "when card state is 'active' and card has expired" do
+        let(:expiration_time) { expired_time }
+
+        it 'returns false' do
+          expect(active?).to be(false)
+        end
+      end
+
+      context "when card state is something other than 'active' and card has not expired" do
+        let(:state) { inactive_state }
+
+        it 'returns false' do
+          expect(active?).to be(false)
+        end
+      end
+
+      context "when card state is something other than 'active' and card has expired" do
+        let(:state) { inactive_state }
+        let(:expiration_time) { expired_time }
 
         it 'returns false' do
           expect(active?).to be(false)
