@@ -34,7 +34,7 @@ module Marqeta
       super + %i[state user_token amount]
     end
 
-    def time_attributes
+    def accessible_time_attributes
       %i[created_time]
     end
 

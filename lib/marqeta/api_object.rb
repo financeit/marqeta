@@ -34,10 +34,10 @@ module Marqeta
     attr_accessor :attributes_hash
 
     def accessible_attributes
-      [:token] + time_attributes
+      [:token] + accessible_time_attributes
     end
 
-    def time_attributes
+    def accessible_time_attributes
       []
     end
 
@@ -47,7 +47,7 @@ module Marqeta
 
     def attribute_value(attribute)
       value = symbolized_attributes_hash[attribute]
-      value = Time.parse(value) if time_attributes.include?(attribute)
+      value = Time.parse(value) if accessible_time_attributes.include?(attribute)
       value
     end
   end

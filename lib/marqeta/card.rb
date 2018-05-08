@@ -25,7 +25,7 @@ module Marqeta
       super + %i[state pan card_product_token]
     end
 
-    def time_attributes
+    def accessible_time_attributes
       %i[expiration_time]
     end
   end

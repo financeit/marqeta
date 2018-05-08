@@ -28,7 +28,7 @@ module Marqeta
 
     private
 
-    def time_attributes
+    def accessible_time_attributes
       %i[created_time]
     end
   end
