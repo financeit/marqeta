@@ -37,6 +37,37 @@ describe Marqeta::User do
     end
   end
 
+  describe '#onetime' do
+    let(:onetime_token) { 'ONETIME_TOKEN' }
+
+    before do
+      allow_any_instance_of(Marqeta::ApiCaller)
+        .to(receive(:post))
+        .and_return(token: onetime_token)
+    end
+
+    it 'creates an ApiCaller with the onetime endpoint' do
+      expect(Marqeta::ApiCaller)
+        .to(receive(:new))
+        .with('users/auth/onetime')
+        .and_call_original
+      user.onetime
+    end
+
+    it 'posts the token to the ApiCaller with correct Authorization username' do
+      expect_any_instance_of(Marqeta::ApiCaller)
+        .to(receive(:post))
+        .with({ user_token: user_token }, Marqeta.configuration.application_id)
+      user.onetime
+    end
+
+    it 'returns an ApiObject with token set correctly' do
+      onetime = user.onetime
+      expect(onetime).to be_a(Marqeta::ApiObject)
+      expect(onetime.token).to eq(onetime_token)
+    end
+  end
+
   describe '#perform_kyc' do
     it "creates a Kyc resource passing in the user's token" do
       expect(Marqeta::Kyc).to receive(:api_create).with(user_token: user_token)
