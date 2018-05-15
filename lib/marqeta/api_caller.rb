@@ -8,10 +8,10 @@ module Marqeta
       @endpoint += "?#{URI.encode_www_form(params)}" if params.any?
     end
 
-    def get
+    def get(username = Marqeta.configuration.username)
       logger.info("GET: #{endpoint}")
       begin
-        response = resource.get
+        response = resource(username).get
         handle_successful_response response
       rescue RestClient::ExceptionWithResponse => e
         handle_exception_with_response e
@@ -20,11 +20,11 @@ module Marqeta
       end
     end
 
-    def post(payload)
+    def post(payload, username = Marqeta.configuration.username)
       json_payload = payload.to_json
       logger.info "POST: #{endpoint}, #{json_payload}"
       begin
-        response = resource.post(json_payload, content_type: 'application/json')
+        response = resource(username).post(json_payload, content_type: 'application/json')
         handle_successful_response response
       rescue RestClient::ExceptionWithResponse => e
         handle_exception_with_response e
@@ -37,10 +37,10 @@ module Marqeta
 
     attr_reader :endpoint
 
-    def resource
-      @resource ||= RestClient::Resource.new(
+    def resource(username)
+      RestClient::Resource.new(
         Marqeta.configuration.base_url + endpoint,
-        Marqeta.configuration.username,
+        username,
         Marqeta.configuration.password
       )
     end

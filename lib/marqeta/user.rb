@@ -20,6 +20,11 @@ module Marqeta
       ApiObject.object_list(User, "users/#{token}/children")
     end
 
+    def onetime
+      result = ApiCaller.new('users/auth/onetime').post({ user_token: token }, Marqeta.configuration.application_id)
+      ApiObject.new(result)
+    end
+
     def metadata_attribute(key)
       metadata = symbolized_attributes_hash[:metadata]
       return nil if metadata.nil?
