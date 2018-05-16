@@ -3,15 +3,16 @@ require 'rest-client'
 
 module Marqeta
   class ApiCaller
-    def initialize(endpoint, params = {})
+    def initialize(endpoint, params = {}, username = Marqeta.configuration.username)
       @endpoint = endpoint
       @endpoint += "?#{URI.encode_www_form(params)}" if params.any?
+      @username = username
     end
 
-    def get(username = Marqeta.configuration.username)
+    def get
       logger.info("GET: #{endpoint}")
       begin
-        response = resource(username).get
+        response = resource.get
         handle_successful_response response
       rescue RestClient::ExceptionWithResponse => e
         handle_exception_with_response e
@@ -20,11 +21,11 @@ module Marqeta
       end
     end
 
-    def post(payload, username = Marqeta.configuration.username)
+    def post(payload)
       json_payload = payload.to_json
       logger.info "POST: #{endpoint}, #{json_payload}"
       begin
-        response = resource(username).post(json_payload, content_type: 'application/json')
+        response = resource.post(json_payload, content_type: 'application/json')
         handle_successful_response response
       rescue RestClient::ExceptionWithResponse => e
         handle_exception_with_response e
@@ -35,9 +36,9 @@ module Marqeta
 
     private
 
-    attr_reader :endpoint
+    attr_reader :endpoint, :username
 
-    def resource(username)
+    def resource
       RestClient::Resource.new(
         Marqeta.configuration.base_url + endpoint,
         username,

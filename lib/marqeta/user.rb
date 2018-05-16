@@ -21,7 +21,7 @@ module Marqeta
     end
 
     def onetime
-      result = ApiCaller.new('users/auth/onetime').post({ user_token: token }, Marqeta.configuration.application_id)
+      result = ApiCaller.new('users/auth/onetime', {}, Marqeta.configuration.application_id).post({ user_token: token })
       ApiObject.new(result)
     end
 
