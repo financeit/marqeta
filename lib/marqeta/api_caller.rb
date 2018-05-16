@@ -39,7 +39,7 @@ module Marqeta
     attr_reader :endpoint, :username
 
     def resource
-      RestClient::Resource.new(
+      @resource ||= RestClient::Resource.new(
         Marqeta.configuration.base_url + endpoint,
         username,
         Marqeta.configuration.password
