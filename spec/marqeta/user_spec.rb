@@ -49,7 +49,7 @@ describe Marqeta::User do
     it 'creates an ApiCaller with the onetime endpoint' do
       expect(Marqeta::ApiCaller)
         .to(receive(:new))
-        .with('users/auth/onetime', {}, Marqeta.configuration.application_id)
+        .with('users/auth/onetime')
         .and_call_original
       user.onetime
     end

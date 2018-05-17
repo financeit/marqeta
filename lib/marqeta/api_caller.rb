@@ -3,10 +3,9 @@ require 'rest-client'
 
 module Marqeta
   class ApiCaller
-    def initialize(endpoint, params = {}, username = Marqeta.configuration.username)
+    def initialize(endpoint, params = {})
       @endpoint = endpoint
       @endpoint += "?#{URI.encode_www_form(params)}" if params.any?
-      @username = username
     end
 
     def get
@@ -36,12 +35,12 @@ module Marqeta
 
     private
 
-    attr_reader :endpoint, :username
+    attr_reader :endpoint
 
     def resource
       @resource ||= RestClient::Resource.new(
         Marqeta.configuration.base_url + endpoint,
-        username,
+        Marqeta.configuration.username,
         Marqeta.configuration.password
       )
     end
