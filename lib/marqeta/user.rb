@@ -20,9 +20,8 @@ module Marqeta
       ApiObject.object_list(User, "users/#{token}/children")
     end
 
-    def onetime
-      result = ApiCaller.new('users/auth/onetime').post(user_token: token)
-      ApiObject.new(result)
+    def create_onetime
+      OneTime.api_create(user_token: token)
     end
 
     def metadata_attribute(key)
