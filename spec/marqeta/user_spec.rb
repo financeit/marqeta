@@ -37,7 +37,7 @@ describe Marqeta::User do
     end
   end
 
-  describe '#onetime' do
+  describe '#create_onetime' do
     it "creates a OneTime resource passing in the user's token" do
       expect(Marqeta::OneTime).to receive(:api_create).with(user_token: user_token)
       user.create_onetime
