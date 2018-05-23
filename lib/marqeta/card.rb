@@ -26,7 +26,7 @@ module Marqeta
     private
 
     def accessible_attributes
-      super + %i[state pan card_product_token]
+      super + %i[state pan card_product_token fulfillment_status]
     end
 
     def accessible_time_attributes
