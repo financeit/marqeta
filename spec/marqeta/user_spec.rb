@@ -37,6 +37,13 @@ describe Marqeta::User do
     end
   end
 
+  describe '#create_onetime' do
+    it "creates a OneTime resource passing in the user's token" do
+      expect(Marqeta::OneTime).to receive(:api_create).with(user_token: user_token)
+      user.create_onetime
+    end
+  end
+
   describe '#perform_kyc' do
     it "creates a Kyc resource passing in the user's token" do
       expect(Marqeta::Kyc).to receive(:api_create).with(user_token: user_token)
