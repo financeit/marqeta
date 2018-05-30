@@ -19,10 +19,14 @@ module Marqeta
       self.attributes_hash = ApiCaller.new("cards/#{token}/showpan", show_cvv_number: show_cvv_number).get
     end
 
+    def create_client_access
+      ClientAccess.api_create(card_token: token)
+    end
+
     private
 
     def accessible_attributes
-      super + %i[state pan card_product_token cvv_number expiration]
+      super + %i[state pan card_product_token fulfillment_status cvv_number expiration]
     end
 
     def accessible_time_attributes

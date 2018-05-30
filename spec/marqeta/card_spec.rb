@@ -117,5 +117,12 @@ describe Marqeta::Card do
         expect(card.pan).to eq(pan)
       end
     end
+
+    describe '#create_client_access' do
+      it "creates a ClientAccess resource passing in the card's token" do
+        expect(Marqeta::ClientAccess).to receive(:api_create).with(card_token: card_token)
+        card.create_client_access
+      end
+    end
   end
 end

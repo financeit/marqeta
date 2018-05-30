@@ -20,6 +20,10 @@ module Marqeta
       ApiObject.object_list(User, "users/#{token}/children")
     end
 
+    def create_onetime
+      OneTime.api_create(user_token: token)
+    end
+
     def metadata_attribute(key)
       metadata = symbolized_attributes_hash[:metadata]
       return nil if metadata.nil?
