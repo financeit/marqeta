@@ -15,8 +15,8 @@ module Marqeta
       state == ACTIVE_STATE && Time.now < expiration_time
     end
 
-    def retrieve_pan
-      self.attributes_hash = ApiCaller.new("cards/#{token}/showpan").get
+    def show_pan(show_cvv_number: false)
+      self.attributes_hash = ApiCaller.new("cards/#{token}/showpan", show_cvv_number: show_cvv_number).get
     end
 
     def create_client_access
@@ -26,7 +26,7 @@ module Marqeta
     private
 
     def accessible_attributes
-      super + %i[state pan card_product_token fulfillment_status]
+      super + %i[state pan card_product_token fulfillment_status cvv_number expiration]
     end
 
     def accessible_time_attributes

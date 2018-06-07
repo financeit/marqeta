@@ -83,9 +83,7 @@ describe Marqeta::Card do
       end
     end
 
-    describe '#retrieve_pan' do
-      let(:retrieve_pan) { card.retrieve_pan }
-
+    describe '#show_pan' do
       before do
         allow_any_instance_of(Marqeta::ApiCaller)
           .to(receive(:get))
@@ -95,18 +93,26 @@ describe Marqeta::Card do
       it 'creates an ApiCaller with the showpan endpoint' do
         expect(Marqeta::ApiCaller)
           .to(receive(:new))
-          .with("cards/#{card_token}/showpan")
+          .with("cards/#{card_token}/showpan", show_cvv_number: false)
           .and_call_original
-        retrieve_pan
+        card.show_pan
+      end
+
+      it 'passes is show_cvv_number as true is specifies' do
+        expect(Marqeta::ApiCaller)
+          .to(receive(:new))
+          .with("cards/#{card_token}/showpan", show_cvv_number: true)
+          .and_call_original
+        card.show_pan(show_cvv_number: true)
       end
 
       it 'calls get on an ApiCaller' do
         expect_any_instance_of(Marqeta::ApiCaller).to(receive(:get))
-        retrieve_pan
+        card.show_pan
       end
 
       it 'sets attributes to showpan response' do
-        retrieve_pan
+        card.show_pan
         expect(card.token).to eq(card_token)
         expect(card.pan).to eq(pan)
       end
