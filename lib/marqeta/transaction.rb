@@ -1,6 +1,7 @@
 module Marqeta
   class Transaction < ApiObject
     PENDING_STATE = 'PENDING'.freeze
+    DECLINED_STATE = 'DECLINED'.freeze
 
     CardAcceptor = Struct.new(:name)
 
@@ -22,6 +23,10 @@ module Marqeta
 
     def pending?
       state == PENDING_STATE
+    end
+
+    def declined?
+      state == DECLINED_STATE
     end
 
     def card_acceptor

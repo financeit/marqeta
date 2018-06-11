@@ -77,22 +77,38 @@ describe Marqeta::Transaction do
   describe 'instance methods' do
     subject(:transaction) { Marqeta::Transaction.new(state: state) }
 
-    let(:state) { Marqeta::Transaction::PENDING_STATE }
-
     describe '#pending?' do
-      let(:pending?) { transaction.pending? }
-
       context 'if state is pending state' do
+        let(:state) { Marqeta::Transaction::PENDING_STATE }
+
         it 'returns true' do
-          expect(pending?).to eq(true)
+          expect(transaction.pending?).to eq(true)
         end
       end
 
       context 'if state is not pending state' do
-        let(:state) { 'DECLINED' }
+        let(:state) { 'RANDOM_STATE' }
 
         it 'returns false' do
-          expect(pending?).to eq(false)
+          expect(transaction.pending?).to eq(false)
+        end
+      end
+    end
+
+    describe '#declined?' do
+      context 'if state is declined state' do
+        let(:state) { Marqeta::Transaction::DECLINED_STATE }
+
+        it 'returns true' do
+          expect(transaction.declined?).to eq(true)
+        end
+      end
+
+      context 'if state is not declined state' do
+        let(:state) { 'RANDOM_STATE' }
+
+        it 'returns false' do
+          expect(transaction.declined?).to eq(false)
         end
       end
     end
