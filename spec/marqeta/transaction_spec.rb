@@ -190,7 +190,7 @@ describe Marqeta::Transaction do
     subject(:transaction) { Marqeta::Transaction.new(state: state) }
 
     describe '#pending?' do
-      context 'if state is pending state' do
+      context 'when state is pending state' do
         let(:state) { Marqeta::Transaction::PENDING_STATE }
 
         it 'returns true' do
@@ -198,7 +198,7 @@ describe Marqeta::Transaction do
         end
       end
 
-      context 'if state is not pending state' do
+      context 'when state is not pending state' do
         let(:state) { 'RANDOM_STATE' }
 
         it 'returns false' do
@@ -208,7 +208,7 @@ describe Marqeta::Transaction do
     end
 
     describe '#declined?' do
-      context 'if state is declined state' do
+      context 'when state is declined state' do
         let(:state) { Marqeta::Transaction::DECLINED_STATE }
 
         it 'returns true' do
@@ -216,7 +216,7 @@ describe Marqeta::Transaction do
         end
       end
 
-      context 'if state is not declined state' do
+      context 'when state is not declined state' do
         let(:state) { 'RANDOM_STATE' }
 
         it 'returns false' do
