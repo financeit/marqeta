@@ -72,27 +72,155 @@ describe Marqeta::Transaction do
         Marqeta::Transaction.index(start_date: start_date, user_token: user_token)
       end
     end
+
+    describe '.simulate_authorization' do
+      let(:endpoint) { 'simulate/authorization' }
+      let(:payload) do
+        {
+          foo: 'bar'
+        }
+      end
+      let(:api_caller) { instance_double(Marqeta::ApiCaller) }
+
+      before do
+        allow(Marqeta::ApiCaller).to(receive(:new)).with(endpoint).and_return(api_caller)
+        allow(api_caller).to(receive(:post))
+      end
+
+      it 'creates ApiCaller with simulation endpoint' do
+        expect(Marqeta::ApiCaller).to(receive(:new)).with(endpoint).and_return(api_caller)
+        Marqeta::Transaction.simulate_authorization(payload)
+      end
+
+      it 'calls post on ApiCaller with payload' do
+        expect(api_caller).to(receive(:post)).with(payload)
+        Marqeta::Transaction.simulate_authorization(payload)
+      end
+    end
+
+    describe '.simulate_reversal' do
+      let(:endpoint) { 'simulate/reversal' }
+      let(:payload) do
+        {
+          foo: 'bar'
+        }
+      end
+      let(:api_caller) { instance_double(Marqeta::ApiCaller) }
+
+      before do
+        allow(Marqeta::ApiCaller).to(receive(:new)).with(endpoint).and_return(api_caller)
+        allow(api_caller).to(receive(:post))
+      end
+
+      it 'creates ApiCaller with simulation endpoint' do
+        expect(Marqeta::ApiCaller).to(receive(:new)).with(endpoint).and_return(api_caller)
+        Marqeta::Transaction.simulate_reversal(payload)
+      end
+
+      it 'calls post on ApiCaller with payload' do
+        expect(api_caller).to(receive(:post)).with(payload)
+        Marqeta::Transaction.simulate_reversal(payload)
+      end
+    end
+
+    describe '.simulate_clearing' do
+      let(:endpoint) { 'simulate/clearing' }
+      let(:payload) do
+        {
+          foo: 'bar'
+        }
+      end
+      let(:clearing_payload) do
+        {
+          foo: 'bar',
+          is_refund: false
+        }
+      end
+      let(:api_caller) { instance_double(Marqeta::ApiCaller) }
+
+      before do
+        allow(Marqeta::ApiCaller).to(receive(:new)).with(endpoint).and_return(api_caller)
+        allow(api_caller).to(receive(:post))
+      end
+
+      it 'creates ApiCaller with simulation endpoint' do
+        expect(Marqeta::ApiCaller).to(receive(:new)).with(endpoint).and_return(api_caller)
+        Marqeta::Transaction.simulate_clearing(payload)
+      end
+
+      it 'calls post on ApiCaller with payload' do
+        expect(api_caller).to(receive(:post)).with(clearing_payload)
+        Marqeta::Transaction.simulate_clearing(payload)
+      end
+    end
+
+    describe '.simulate_refund' do
+      let(:endpoint) { 'simulate/clearing' }
+      let(:payload) do
+        {
+          foo: 'bar'
+        }
+      end
+      let(:clearing_payload) do
+        {
+          foo: 'bar',
+          is_refund: true
+        }
+      end
+      let(:api_caller) { instance_double(Marqeta::ApiCaller) }
+
+      before do
+        allow(Marqeta::ApiCaller).to(receive(:new)).with(endpoint).and_return(api_caller)
+        allow(api_caller).to(receive(:post))
+      end
+
+      it 'creates ApiCaller with simulation endpoint' do
+        expect(Marqeta::ApiCaller).to(receive(:new)).with(endpoint).and_return(api_caller)
+        Marqeta::Transaction.simulate_refund(payload)
+      end
+
+      it 'calls post on ApiCaller with payload' do
+        expect(api_caller).to(receive(:post)).with(clearing_payload)
+        Marqeta::Transaction.simulate_refund(payload)
+      end
+    end
   end
 
   describe 'instance methods' do
     subject(:transaction) { Marqeta::Transaction.new(state: state) }
 
-    let(:state) { Marqeta::Transaction::PENDING_STATE }
-
     describe '#pending?' do
-      let(:pending?) { transaction.pending? }
+      context 'when state is pending state' do
+        let(:state) { Marqeta::Transaction::PENDING_STATE }
 
-      context 'if state is pending state' do
         it 'returns true' do
-          expect(pending?).to eq(true)
+          expect(transaction.pending?).to eq(true)
         end
       end
 
-      context 'if state is not pending state' do
-        let(:state) { 'DECLINED' }
+      context 'when state is not pending state' do
+        let(:state) { 'RANDOM_STATE' }
 
         it 'returns false' do
-          expect(pending?).to eq(false)
+          expect(transaction.pending?).to eq(false)
+        end
+      end
+    end
+
+    describe '#declined?' do
+      context 'when state is declined state' do
+        let(:state) { Marqeta::Transaction::DECLINED_STATE }
+
+        it 'returns true' do
+          expect(transaction.declined?).to eq(true)
+        end
+      end
+
+      context 'when state is not declined state' do
+        let(:state) { 'RANDOM_STATE' }
+
+        it 'returns false' do
+          expect(transaction.declined?).to eq(false)
         end
       end
     end

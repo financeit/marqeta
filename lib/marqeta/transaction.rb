@@ -1,12 +1,9 @@
 module Marqeta
   class Transaction < ApiObject
     PENDING_STATE = 'PENDING'.freeze
+    DECLINED_STATE = 'DECLINED'.freeze
 
     CardAcceptor = Struct.new(:name)
-
-    def self.endpoint
-      'simulate/authorization'
-    end
 
     def self.index(start_date: nil, user_token: nil)
       params = {
@@ -20,8 +17,30 @@ module Marqeta
       result['data'].map { |transaction_hash| new(transaction_hash) }
     end
 
+    def self.simulate_authorization(payload)
+      ApiCaller.new('simulate/authorization').post(payload)
+    end
+
+    def self.simulate_reversal(payload)
+      ApiCaller.new('simulate/reversal').post(payload)
+    end
+
+    def self.simulate_clearing(payload)
+      payload[:is_refund] = false
+      ApiCaller.new('simulate/clearing').post(payload)
+    end
+
+    def self.simulate_refund(payload)
+      payload[:is_refund] = true
+      ApiCaller.new('simulate/clearing').post(payload)
+    end
+
     def pending?
       state == PENDING_STATE
+    end
+
+    def declined?
+      state == DECLINED_STATE
     end
 
     def card_acceptor
