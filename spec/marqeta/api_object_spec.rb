@@ -45,6 +45,40 @@ describe Marqeta::ApiObject do
       end
     end
 
+    describe '.api_retrieve' do
+      let(:api_retrieve) { Marqeta::ApiObject.api_retrieve(token) }
+      let(:token) { 'TOKEN' }
+      let(:response_hash) { { 'a' => 1, 'b' => 2 } }
+
+      before do
+        allow_any_instance_of(Marqeta::ApiCaller)
+          .to(receive(:get))
+          .and_return(response_hash)
+      end
+
+      it 'creates an ApiCaller with the endpoint' do
+        expect(Marqeta::ApiCaller)
+          .to(receive(:new))
+          .with(endpoint + '/' + token)
+          .and_call_original
+        api_retrieve
+      end
+
+      it 'calls get on the ApiCaller' do
+        expect_any_instance_of(Marqeta::ApiCaller)
+          .to(receive(:get))
+        api_retrieve
+      end
+
+      it 'creates and returns ApiObject with response sent to initializer' do
+        expect(Marqeta::ApiObject)
+          .to(receive(:new))
+          .with(response_hash)
+          .and_call_original
+        expect(api_retrieve).to(be_a(Marqeta::ApiObject))
+      end
+    end
+
     describe '.object_list' do
       let(:response_hash) { { 'data' => data_array } }
       let(:data_array) do
