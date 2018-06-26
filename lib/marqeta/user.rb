@@ -13,7 +13,7 @@ module Marqeta
     end
 
     def create_child(extra_params = {})
-      self.class.api_create(extra_params.merge(uses_parent_account: true, parent_token: token))
+      self.class.api_create(extra_params.merge(uses_parent_account: false, parent_token: token))
     end
 
     def children
