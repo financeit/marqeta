@@ -32,6 +32,10 @@ module Marqeta
 
     private
 
+    def accessible_attributes
+      super + %i[parent_token]
+    end
+
     def accessible_time_attributes
       %i[created_time]
     end
