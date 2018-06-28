@@ -22,7 +22,7 @@ describe Marqeta::User do
 
   describe '#create_child' do
     it "creates a User resource passing in the user's token and uses_parent_account: true" do
-      expect(Marqeta::User).to receive(:api_create).with(parent_token: user_token, uses_parent_account: true)
+      expect(Marqeta::User).to receive(:api_create).with(parent_token: user_token, uses_parent_account: false)
       user.create_child
     end
 
@@ -30,7 +30,7 @@ describe Marqeta::User do
       extra_params = { foo: 'bar' }
       expect(Marqeta::User).to receive(:api_create).with(
         parent_token: user_token,
-        uses_parent_account: true,
+        uses_parent_account: false,
         foo: 'bar'
       )
       user.create_child(extra_params)
