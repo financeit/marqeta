@@ -3,6 +3,11 @@ module Marqeta
     PENDING_STATE = 'PENDING'.freeze
     DECLINED_STATE = 'DECLINED'.freeze
 
+    DECLINED_DUE_TO_EXCEEDING_LIMIT_MESSAGE = 'Exceeds withdrawal amount limit'.freeze
+    DECLINED_DUE_TO_TIMEOUT_MESSAGE = 'Operation timeout'.freeze
+    DECLINED_DUE_TO_JIT_ERROR_MESSAGE = 'Got 500 status code from gateway.'.freeze
+    DECLINED_BY_JIT_MESSAGE = 'Declined by gateway.'.freeze
+
     CardAcceptor = Struct.new(:name)
 
     def self.index(start_date: nil, user_token: nil)
@@ -43,8 +48,32 @@ module Marqeta
       state == DECLINED_STATE
     end
 
+    def declined_due_to_exceeding_limit?
+      declined? && response_memo == DECLINED_DUE_TO_EXCEEDING_LIMIT_MESSAGE
+    end
+
+    def declined_due_to_timeout?
+      declined? && gateway_log_message == DECLINED_DUE_TO_TIMEOUT_MESSAGE
+    end
+
+    def declined_due_to_jit_error?
+      declined? && gateway_log_message == DECLINED_DUE_TO_JIT_ERROR_MESSAGE
+    end
+
+    def declined_by_jit?
+      declined? && gateway_log_message == DECLINED_BY_JIT_MESSAGE
+    end
+
     def card_acceptor
       CardAcceptor.new(card_acceptor_hash['name'])
+    end
+
+    def gateway_log_message
+      attributes_hash['gpa_order']['funding']['gateway_log']['message'] if attributes_hash['gpa_order'].present?
+    end
+
+    def response_memo
+      attributes_hash['response']['memo']
     end
 
     private
