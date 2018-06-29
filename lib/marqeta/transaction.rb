@@ -3,9 +3,9 @@ module Marqeta
     PENDING_STATE = 'PENDING'.freeze
     DECLINED_STATE = 'DECLINED'.freeze
 
-    DECLINED_DUE_TO_EXCEEDING_LIMIT_MESSAGE = 'Exceeds withdrawal amount limit'.freeze
-    DECLINED_DUE_TO_TIMEOUT_MESSAGE = 'Operation timeout'.freeze
-    DECLINED_DUE_TO_JIT_ERROR_MESSAGE = 'Got 500 status code from gateway.'.freeze
+    EXCEEDING_LIMIT_MESSAGE = 'Exceeds withdrawal amount limit'.freeze
+    TIMEOUT_MESSAGE = 'Operation timeout'.freeze
+    JIT_ERROR_MESSAGE = 'Got 500 status code from gateway.'.freeze
     DECLINED_BY_JIT_MESSAGE = 'Declined by gateway.'.freeze
 
     CardAcceptor = Struct.new(:name)
@@ -48,20 +48,20 @@ module Marqeta
       state == DECLINED_STATE
     end
 
-    def declined_due_to_exceeding_limit?
-      declined? && response_memo == DECLINED_DUE_TO_EXCEEDING_LIMIT_MESSAGE
-    end
-
-    def declined_due_to_timeout?
-      declined? && gateway_log_message == DECLINED_DUE_TO_TIMEOUT_MESSAGE
-    end
-
-    def declined_due_to_jit_error?
-      declined? && gateway_log_message == DECLINED_DUE_TO_JIT_ERROR_MESSAGE
-    end
-
     def declined_by_jit?
       declined? && gateway_log_message == DECLINED_BY_JIT_MESSAGE
+    end
+
+    def exceeding_limit?
+      response_memo == EXCEEDING_LIMIT_MESSAGE
+    end
+
+    def timeout?
+      gateway_log_message == TIMEOUT_MESSAGE
+    end
+
+    def jit_error?
+      gateway_log_message == JIT_ERROR_MESSAGE
     end
 
     def card_acceptor
