@@ -89,7 +89,7 @@ module Marqeta
 
     def gateway_response_code
       gpa_order = attributes_hash['gpa_order']
-      gpa_order['funding']['gateway_log']['response']['code'] if gpa_order.present?
+      gpa_order['funding']['gateway_log']['response']['code'] unless gpa_order.nil?
     end
 
     def response_code
