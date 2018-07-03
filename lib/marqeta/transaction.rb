@@ -3,10 +3,11 @@ module Marqeta
     PENDING_STATE = 'PENDING'.freeze
     DECLINED_STATE = 'DECLINED'.freeze
 
-    EXCEEDING_LIMIT_MESSAGE = 'Exceeds withdrawal amount limit'.freeze
-    TIMEOUT_MESSAGE = 'Operation timeout'.freeze
-    JIT_ERROR_MESSAGE = 'Got 500 status code from gateway.'.freeze
-    DECLINED_BY_JIT_MESSAGE = 'Declined by gateway.'.freeze
+    DECLINED_BY_JIT_RESPONSE_CODE = '402'.freeze
+    TIMEOUT_RESPONSE_CODE = '97'.freeze
+    JIT_ERROR_RESPONSE_CODE = '96'.freeze
+    EXCEEDING_AMOUNT_LIMIT_RESPONSE_CODE = '1834'.freeze
+    EXCEEDING_COUNT_LIMIT_RESPONSE_CODE = '1817'.freeze
 
     CardAcceptor = Struct.new(:name)
 
@@ -49,31 +50,36 @@ module Marqeta
     end
 
     def declined_by_jit?
-      declined? && gateway_log_message == DECLINED_BY_JIT_MESSAGE
-    end
-
-    def exceeding_limit?
-      response_memo == EXCEEDING_LIMIT_MESSAGE
+      declined? && gateway_response_code == DECLINED_BY_JIT_RESPONSE_CODE
     end
 
     def timeout?
-      gateway_log_message == TIMEOUT_MESSAGE
+      gateway_response_code == TIMEOUT_RESPONSE_CODE
     end
 
     def jit_error?
-      gateway_log_message == JIT_ERROR_MESSAGE
+      gateway_response_code == JIT_ERROR_RESPONSE_CODE
+    end
+
+    def exceeding_amount_limit?
+      response_code == EXCEEDING_AMOUNT_LIMIT_RESPONSE_CODE
+    end
+
+    def exceeding_count_limit?
+      response_code == EXCEEDING_COUNT_LIMIT_RESPONSE_CODE
     end
 
     def card_acceptor
       CardAcceptor.new(card_acceptor_hash['name'])
     end
 
-    def gateway_log_message
-      attributes_hash['gpa_order']['funding']['gateway_log']['message'] if attributes_hash['gpa_order'].present?
+    def gateway_response_code
+      gpa_order = attributes_hash['gpa_order']
+      gpa_order['funding']['gateway_log']['response']['code'] if gpa_order.present?
     end
 
-    def response_memo
-      attributes_hash['response']['memo']
+    def response_code
+      attributes_hash['response']['code']
     end
 
     private
