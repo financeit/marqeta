@@ -73,15 +73,6 @@ module Marqeta
       CardAcceptor.new(card_acceptor_hash['name'])
     end
 
-    def gateway_response_code
-      gpa_order = attributes_hash['gpa_order']
-      gpa_order['funding']['gateway_log']['response']['code'] if gpa_order.present?
-    end
-
-    def response_code
-      attributes_hash['response']['code']
-    end
-
     private
 
     def accessible_attributes
@@ -94,6 +85,15 @@ module Marqeta
 
     def card_acceptor_hash
       attributes_hash['card_acceptor']
+    end
+
+    def gateway_response_code
+      gpa_order = attributes_hash['gpa_order']
+      gpa_order['funding']['gateway_log']['response']['code'] if gpa_order.present?
+    end
+
+    def response_code
+      attributes_hash['response']['code']
     end
   end
 end
