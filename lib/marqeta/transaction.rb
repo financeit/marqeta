@@ -3,12 +3,6 @@ module Marqeta
     PENDING_STATE = 'PENDING'.freeze
     DECLINED_STATE = 'DECLINED'.freeze
 
-    DECLINED_BY_JIT_RESPONSE_CODE = '402'.freeze
-    TIMEOUT_RESPONSE_CODE = '97'.freeze
-    JIT_ERROR_RESPONSE_CODE = '96'.freeze
-    EXCEEDING_AMOUNT_LIMIT_RESPONSE_CODE = '1834'.freeze
-    EXCEEDING_COUNT_LIMIT_RESPONSE_CODE = '1817'.freeze
-
     CardAcceptor = Struct.new(:name)
 
     def self.index(start_date: nil, user_token: nil)
@@ -50,23 +44,23 @@ module Marqeta
     end
 
     def declined_by_jit?
-      declined? && gateway_response_code == DECLINED_BY_JIT_RESPONSE_CODE
+      declined? && gateway_response_code == GatewayResponseCodes::DECLINED_BY_JIT
     end
 
     def timeout?
-      gateway_response_code == TIMEOUT_RESPONSE_CODE
+      gateway_response_code == GatewayResponseCodes::TIMEOUT
     end
 
     def jit_error?
-      gateway_response_code == JIT_ERROR_RESPONSE_CODE
+      gateway_response_code == GatewayResponseCodes::JIT_ERROR
     end
 
     def exceeding_amount_limit?
-      response_code == EXCEEDING_AMOUNT_LIMIT_RESPONSE_CODE
+      response_code == TransactionResponseCodes::EXCEEDING_AMOUNT_LIMIT
     end
 
     def exceeding_count_limit?
-      response_code == EXCEEDING_COUNT_LIMIT_RESPONSE_CODE
+      response_code == TransactionResponseCodes::EXCEEDING_COUNT_LIMIT
     end
 
     def card_acceptor
