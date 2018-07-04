@@ -82,8 +82,9 @@ module Marqeta
     end
 
     def gateway_response_code
-      gpa_order = attributes_hash['gpa_order']
-      gpa_order.fetch('funding').fetch('gateway_log').fetch('response').fetch('code') unless gpa_order.nil?
+      attributes_hash['gpa_order']['funding']['gateway_log']['response']['code']
+    rescue NoMethodError
+      nil
     end
 
     def response_code
