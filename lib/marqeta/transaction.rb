@@ -83,7 +83,7 @@ module Marqeta
 
     def gateway_response_code
       attributes_hash['gpa_order']['funding']['gateway_log']['response']['code']
-    rescue NoMethodError
+    rescue NoMethodError # Marqeta may send us only a portion of the above fetch (no documentation for the behaviour)
       nil
     end
 
