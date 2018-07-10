@@ -187,9 +187,38 @@ describe Marqeta::Transaction do
   end
 
   describe 'instance methods' do
-    subject(:transaction) { Marqeta::Transaction.new(state: state) }
+    subject(:transaction) do
+      Marqeta::Transaction.new(
+        'state' => state,
+        'response' => {
+          'code' => response_code
+        },
+        'gpa_order' => gpa_order
+      )
+    end
+
+    let(:gpa_order) do
+      {
+        'funding' => {
+          'gateway_log' => {
+            'response' => {
+              'code' => gateway_response_code
+            }
+          }
+        }
+      }
+    end
+    let(:state) { 'RANDOM_STATE' }
+    let(:gateway_response_code) { 'RANDOM_GATEWAY_RESPONSE_CODE' }
+    let(:response_code) { 'RANDOM_RESPONSE_CODE' }
 
     describe '#pending?' do
+      context 'when state is not pending state' do
+        it 'returns false' do
+          expect(transaction.pending?).to eq(false)
+        end
+      end
+
       context 'when state is pending state' do
         let(:state) { Marqeta::Transaction::PENDING_STATE }
 
@@ -197,17 +226,15 @@ describe Marqeta::Transaction do
           expect(transaction.pending?).to eq(true)
         end
       end
-
-      context 'when state is not pending state' do
-        let(:state) { 'RANDOM_STATE' }
-
-        it 'returns false' do
-          expect(transaction.pending?).to eq(false)
-        end
-      end
     end
 
     describe '#declined?' do
+      context 'when state is not declined state' do
+        it 'returns false' do
+          expect(transaction.declined?).to eq(false)
+        end
+      end
+
       context 'when state is declined state' do
         let(:state) { Marqeta::Transaction::DECLINED_STATE }
 
@@ -215,12 +242,117 @@ describe Marqeta::Transaction do
           expect(transaction.declined?).to eq(true)
         end
       end
+    end
 
-      context 'when state is not declined state' do
-        let(:state) { 'RANDOM_STATE' }
+    describe '#declined_by_jit?' do
+      context 'when state is not declined and gateway_response_code is not DECLINED_BY_JIT' do
+        it 'returns false' do
+          expect(transaction.declined_by_jit?).to eq(false)
+        end
+      end
+
+      context 'when state is declined and gateway_response_code is not DECLINED_BY_JIT' do
+        let(:state) { Marqeta::Transaction::DECLINED_STATE }
 
         it 'returns false' do
-          expect(transaction.declined?).to eq(false)
+          expect(transaction.declined_by_jit?).to eq(false)
+        end
+      end
+
+      context 'when state is not declined and gateway_response_code is DECLINED_BY_JIT' do
+        let(:gateway_response_code) { Marqeta::GatewayResponseCodes::DECLINED_BY_JIT }
+
+        it 'returns false' do
+          expect(transaction.declined_by_jit?).to eq(false)
+        end
+      end
+
+      context 'when state is declined and gateway_response_code is DECLINED_BY_JIT' do
+        let(:state) { Marqeta::Transaction::DECLINED_STATE }
+        let(:gateway_response_code) { Marqeta::GatewayResponseCodes::DECLINED_BY_JIT }
+
+        it 'returns true' do
+          expect(transaction.declined_by_jit?).to eq(true)
+        end
+      end
+    end
+
+    describe '#timeout?' do
+      context 'when gpa_order is nil' do
+        let(:gpa_order) { nil }
+
+        it 'returns false' do
+          expect(transaction.timeout?).to eq(false)
+        end
+      end
+
+      context 'when gpa_order is not nil and gateway_response_code is not TIMEOUT' do
+        it 'returns false' do
+          expect(transaction.timeout?).to eq(false)
+        end
+      end
+
+      context 'when gpa_order is not nil and gateway_response_code is TIMEOUT' do
+        let(:gateway_response_code) { Marqeta::GatewayResponseCodes::TIMEOUT }
+
+        it 'returns true' do
+          expect(transaction.timeout?).to eq(true)
+        end
+      end
+    end
+
+    describe '#jit_error?' do
+      context 'when gpa_order is nil' do
+        let(:gpa_order) { nil }
+
+        it 'returns false' do
+          expect(transaction.jit_error?).to eq(false)
+        end
+      end
+
+      context 'when gpa_order is not nil and gateway_response_code is not JIT_ERROR' do
+        it 'returns false' do
+          expect(transaction.jit_error?).to eq(false)
+        end
+      end
+
+      context 'when gpa_order is not nil and gateway_response_code is JIT_ERROR' do
+        let(:gateway_response_code) { Marqeta::GatewayResponseCodes::JIT_ERROR }
+
+        it 'returns true' do
+          expect(transaction.jit_error?).to eq(true)
+        end
+      end
+    end
+
+    describe '#exceeding_amount_limit?' do
+      context 'when response_code is not EXCEEDING_AMOUNT_LIMIT' do
+        it 'returns false' do
+          expect(transaction.exceeding_amount_limit?).to eq(false)
+        end
+      end
+
+      context 'when response_code is EXCEEDING_AMOUNT_LIMIT' do
+        let(:response_code) { Marqeta::TransactionResponseCodes::EXCEEDING_AMOUNT_LIMIT }
+
+        it 'returns true' do
+          expect(transaction.exceeding_amount_limit?).to eq(true)
+        end
+      end
+    end
+
+    describe '#exceeding_count_limit?' do
+      context 'when response_code is not EXCEEDING_COUNT_LIMIT' do
+        it 'returns false' do
+          expect(transaction.exceeding_count_limit?).to eq(false)
+        end
+      end
+
+      context 'when response_code is EXCEEDING_COUNT_LIMIT' do
+        let(:response_code) { Marqeta::TransactionResponseCodes::EXCEEDING_COUNT_LIMIT }
+
+        it 'returns true' do
+          expect(transaction.exceeding_count_limit?).to eq(true)
         end
       end
     end

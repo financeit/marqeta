@@ -43,6 +43,26 @@ module Marqeta
       state == DECLINED_STATE
     end
 
+    def declined_by_jit?
+      declined? && gateway_response_code == GatewayResponseCodes::DECLINED_BY_JIT
+    end
+
+    def timeout?
+      gateway_response_code == GatewayResponseCodes::TIMEOUT
+    end
+
+    def jit_error?
+      gateway_response_code == GatewayResponseCodes::JIT_ERROR
+    end
+
+    def exceeding_amount_limit?
+      response_code == TransactionResponseCodes::EXCEEDING_AMOUNT_LIMIT
+    end
+
+    def exceeding_count_limit?
+      response_code == TransactionResponseCodes::EXCEEDING_COUNT_LIMIT
+    end
+
     def card_acceptor
       CardAcceptor.new(card_acceptor_hash['name'])
     end
@@ -59,6 +79,16 @@ module Marqeta
 
     def card_acceptor_hash
       attributes_hash['card_acceptor']
+    end
+
+    def gateway_response_code
+      attributes_hash['gpa_order']['funding']['gateway_log']['response']['code']
+    rescue NoMethodError # Marqeta may send us only a portion of the above fetch (no documentation for the behaviour)
+      nil
+    end
+
+    def response_code
+      attributes_hash.fetch('response').fetch('code')
     end
   end
 end
