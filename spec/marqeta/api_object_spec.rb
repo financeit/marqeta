@@ -81,11 +81,10 @@ describe Marqeta::ApiObject do
 
     describe '.object_list' do
       let(:endpoint) { 'endpoint' }
-      let(:query_results_count) { Marqeta::ApiObject::QUERY_RESULTS_COUNT }
 
       context 'when api returns no results' do
         let(:response_hash) { { 'data' => [], 'is_more' => false } }
-        let(:paginated_endpoint) { "#{endpoint}?count=#{query_results_count}&start_index=0" }
+        let(:paginated_endpoint) { "#{endpoint}?count=100&start_index=0" }
         let(:api_caller) { instance_double(Marqeta::ApiCaller) }
 
         before do
@@ -107,7 +106,7 @@ describe Marqeta::ApiObject do
             { token: 'token2' }
           ]
         end
-        let(:paginated_endpoint) { "#{endpoint}?count=#{query_results_count}&start_index=0" }
+        let(:paginated_endpoint) { "#{endpoint}?count=100&start_index=0" }
         let(:api_caller) { instance_double(Marqeta::ApiCaller) }
 
         before do
@@ -143,9 +142,9 @@ describe Marqeta::ApiObject do
             { token: 'token5' }
           ]
         end
-        let(:paginated_endpoint1) { "#{endpoint}?count=#{query_results_count}&start_index=0" }
-        let(:paginated_endpoint2) { "#{endpoint}?count=#{query_results_count}&start_index=#{query_results_count}" }
-        let(:paginated_endpoint3) { "#{endpoint}?count=#{query_results_count}&start_index=#{query_results_count * 2}" }
+        let(:paginated_endpoint1) { "#{endpoint}?count=100&start_index=0" }
+        let(:paginated_endpoint2) { "#{endpoint}?count=100&start_index=100" }
+        let(:paginated_endpoint3) { "#{endpoint}?count=100&start_index=200" }
         let(:api_caller1) { instance_double(Marqeta::ApiCaller) }
         let(:api_caller2) { instance_double(Marqeta::ApiCaller) }
         let(:api_caller3) { instance_double(Marqeta::ApiCaller) }

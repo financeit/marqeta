@@ -24,7 +24,11 @@ module Marqeta
       is_more = true
 
       while is_more
-        paginated_endpoint = "#{endpoint}?count=#{QUERY_RESULTS_COUNT}&start_index=#{start_index}"
+        paginated_params = {
+          count: QUERY_RESULTS_COUNT,
+          start_index: start_index
+        }
+        paginated_endpoint = "#{endpoint}?#{URI.encode_www_form(paginated_params)}"
         response = ApiCaller.new(paginated_endpoint).get
         results += response['data']
         start_index += QUERY_RESULTS_COUNT
