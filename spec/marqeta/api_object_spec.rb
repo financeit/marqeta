@@ -80,31 +80,90 @@ describe Marqeta::ApiObject do
     end
 
     describe '.object_list' do
-      let(:response_hash) { { 'data' => data_array } }
-      let(:data_array) do
-        [
-          { token: 'token1' },
-          { token: 'token2' }
-        ]
-      end
       let(:endpoint) { 'endpoint' }
-      let(:api_caller) { instance_double(Marqeta::ApiCaller) }
+      let(:query_results_count) { Marqeta::ApiObject::QUERY_RESULTS_COUNT }
 
-      before do
-        allow(Marqeta::ApiCaller)
-          .to(receive(:new))
-          .with(endpoint)
-          .and_return(api_caller)
+      context 'when api returns no results' do
+        let(:response_hash) { { 'data' => [], 'is_more' => false } }
+        let(:paginated_endpoint) { "#{endpoint}?count=#{query_results_count}&start_index=0" }
+        let(:api_caller) { instance_double(Marqeta::ApiCaller) }
 
-        allow(api_caller)
-          .to(receive(:get))
-          .and_return(response_hash)
+        before do
+          allow(Marqeta::ApiCaller).to(receive(:new)).with(paginated_endpoint).and_return(api_caller)
+          allow(api_caller).to(receive(:get)).and_return(response_hash)
+        end
+
+        it 'returns empty array' do
+          objects = Marqeta::ApiObject.object_list(Marqeta::User, endpoint)
+          expect(objects.length).to eq(0)
+        end
       end
 
-      it 'returns array of objects with expected values' do
-        objects = Marqeta::ApiObject.object_list(Marqeta::User, endpoint)
-        expect(objects.map(&:class).uniq).to eq([Marqeta::User])
-        expect(objects.map(&:token)).to eq(%w[token1 token2])
+      context 'when api returns all the results in first call' do
+        let(:response_hash) { { 'data' => data_array, 'is_more' => false } }
+        let(:data_array) do
+          [
+            { token: 'token1' },
+            { token: 'token2' }
+          ]
+        end
+        let(:paginated_endpoint) { "#{endpoint}?count=#{query_results_count}&start_index=0" }
+        let(:api_caller) { instance_double(Marqeta::ApiCaller) }
+
+        before do
+          allow(Marqeta::ApiCaller).to(receive(:new)).with(paginated_endpoint).and_return(api_caller)
+          allow(api_caller).to(receive(:get)).and_return(response_hash)
+        end
+
+        it 'returns array of objects with expected values' do
+          objects = Marqeta::ApiObject.object_list(Marqeta::User, endpoint)
+          expect(objects.map(&:class).uniq).to eq([Marqeta::User])
+          expect(objects.map(&:token)).to eq(%w[token1 token2])
+        end
+      end
+
+      context 'when api returns paginated results' do
+        let(:response_hash1) { { 'data' => data_array1, 'is_more' => true } }
+        let(:response_hash2) { { 'data' => data_array2, 'is_more' => true } }
+        let(:response_hash3) { { 'data' => data_array3, 'is_more' => false } }
+        let(:data_array1) do
+          [
+            { token: 'token1' },
+            { token: 'token2' }
+          ]
+        end
+        let(:data_array2) do
+          [
+            { token: 'token3' },
+            { token: 'token4' }
+          ]
+        end
+        let(:data_array3) do
+          [
+            { token: 'token5' }
+          ]
+        end
+        let(:paginated_endpoint1) { "#{endpoint}?count=#{query_results_count}&start_index=0" }
+        let(:paginated_endpoint2) { "#{endpoint}?count=#{query_results_count}&start_index=#{query_results_count}" }
+        let(:paginated_endpoint3) { "#{endpoint}?count=#{query_results_count}&start_index=#{query_results_count * 2}" }
+        let(:api_caller1) { instance_double(Marqeta::ApiCaller) }
+        let(:api_caller2) { instance_double(Marqeta::ApiCaller) }
+        let(:api_caller3) { instance_double(Marqeta::ApiCaller) }
+
+        before do
+          allow(Marqeta::ApiCaller).to(receive(:new)).with(paginated_endpoint1).and_return(api_caller1)
+          allow(Marqeta::ApiCaller).to(receive(:new)).with(paginated_endpoint2).and_return(api_caller2)
+          allow(Marqeta::ApiCaller).to(receive(:new)).with(paginated_endpoint3).and_return(api_caller3)
+          allow(api_caller1).to(receive(:get)).and_return(response_hash1)
+          allow(api_caller2).to(receive(:get)).and_return(response_hash2)
+          allow(api_caller3).to(receive(:get)).and_return(response_hash3)
+        end
+
+        it 'returns array of objects with expected values' do
+          objects = Marqeta::ApiObject.object_list(Marqeta::User, endpoint)
+          expect(objects.map(&:class).uniq).to eq([Marqeta::User])
+          expect(objects.map(&:token)).to eq(%w[token1 token2 token3 token4 token5])
+        end
       end
     end
   end

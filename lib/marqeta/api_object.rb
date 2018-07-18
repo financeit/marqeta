@@ -1,5 +1,7 @@
 module Marqeta
   class ApiObject
+    QUERY_RESULTS_COUNT = 100
+
     def initialize(attributes_hash)
       self.attributes_hash = attributes_hash
     end
@@ -17,8 +19,19 @@ module Marqeta
     end
 
     def self.object_list(klass, endpoint)
-      response = ApiCaller.new(endpoint).get
-      response['data'].map { |data_hash| klass.new(data_hash) }
+      results = []
+      start_index = 0
+      is_more = true
+
+      while is_more
+        paginated_endpoint = "#{endpoint}?count=#{QUERY_RESULTS_COUNT}&start_index=#{start_index}"
+        response = ApiCaller.new(paginated_endpoint).get
+        results += response['data']
+        start_index += QUERY_RESULTS_COUNT
+        is_more = response['is_more']
+      end
+
+      results.map { |data_hash| klass.new(data_hash) }
     end
 
     def method_missing(method_name, *args, &block)
