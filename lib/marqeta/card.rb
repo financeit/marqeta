@@ -15,6 +15,10 @@ module Marqeta
       state == ACTIVE_STATE && Time.now < expiration_time
     end
 
+    def pin_is_set?
+      pin_is_set
+    end
+
     def show_pan(show_cvv_number: false)
       self.attributes_hash = ApiCaller.new("cards/#{token}/showpan", show_cvv_number: show_cvv_number).get
     end
