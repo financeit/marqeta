@@ -40,9 +40,17 @@ describe Marqeta::Card do
   end
 
   describe 'instance methods' do
-    subject(:card) { Marqeta::Card.new(token: card_token, state: state, expiration_time: expiration_time) }
+    subject(:card) do
+      Marqeta::Card.new(
+        token: card_token,
+        state: state,
+        pin_is_set: pin_is_set,
+        expiration_time: expiration_time
+      )
+    end
 
     let(:state) { Marqeta::Card::ACTIVE_STATE }
+    let(:pin_is_set) { true }
     let(:expiration_time) { not_expired_time }
     let(:not_expired_time) { (Time.now + 3600).to_s }
 
@@ -79,6 +87,22 @@ describe Marqeta::Card do
 
         it 'returns false' do
           expect(active?).to be(false)
+        end
+      end
+    end
+
+    describe '#pin_is_set?' do
+      context "when card pin is set" do
+        it 'returns true' do
+          expect(card.pin_is_set?).to be(true)
+        end
+      end
+
+      context "when card pin is not set" do
+        let(:pin_is_set) { false }
+
+        it 'returns false' do
+          expect(card.pin_is_set?).to be(false)
         end
       end
     end
