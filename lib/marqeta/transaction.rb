@@ -70,7 +70,7 @@ module Marqeta
     private
 
     def accessible_attributes
-      super + %i[state user_token amount preceding_related_transaction_token]
+      super + %i[state user_token card_token amount preceding_related_transaction_token]
     end
 
     def accessible_time_attributes
