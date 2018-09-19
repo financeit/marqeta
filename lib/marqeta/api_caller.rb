@@ -52,6 +52,8 @@ module Marqeta
     def handle_successful_response(response)
       logger.info("Response: #{response}")
       JSON.parse(response)
+    rescue JSON::ParserError
+      {}
     end
 
     def handle_exception_with_response(e)
