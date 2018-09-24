@@ -73,10 +73,6 @@ module Marqeta
       super + %i[state user_token card_token amount preceding_related_transaction_token]
     end
 
-    def accessible_time_attributes
-      %i[created_time]
-    end
-
     def card_acceptor_hash
       attributes_hash['card_acceptor']
     end

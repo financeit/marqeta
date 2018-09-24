@@ -59,7 +59,7 @@ module Marqeta
     end
 
     def accessible_time_attributes
-      []
+      %i[created_time]
     end
 
     def symbolized_attributes_hash
