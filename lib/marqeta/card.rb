@@ -34,7 +34,7 @@ module Marqeta
     end
 
     def accessible_time_attributes
-      %i[expiration_time]
+      super + %i[expiration_time]
     end
   end
 end
