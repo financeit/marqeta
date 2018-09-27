@@ -201,6 +201,7 @@ describe Marqeta::Transaction do
       {
         'funding' => {
           'gateway_log' => {
+            'duration' => gateway_duration,
             'response' => {
               'code' => gateway_response_code
             }
@@ -209,6 +210,7 @@ describe Marqeta::Transaction do
       }
     end
     let(:state) { 'RANDOM_STATE' }
+    let(:gateway_duration) { 1000 }
     let(:gateway_response_code) { 'RANDOM_GATEWAY_RESPONSE_CODE' }
     let(:response_code) { 'RANDOM_RESPONSE_CODE' }
 
@@ -353,6 +355,26 @@ describe Marqeta::Transaction do
 
         it 'returns true' do
           expect(transaction.exceeding_count_limit?).to eq(true)
+        end
+      end
+    end
+
+    describe '#gateway_duration' do
+      context 'when gateway log is not present' do
+        let(:gpa_order) do
+          {
+            'funding' => {}
+          }
+        end
+
+        it 'returns nil' do
+          expect(transaction.gateway_duration).to eq(nil)
+        end
+      end
+
+      context 'when gateway log is present' do
+        it 'returns the duration' do
+          expect(transaction.gateway_duration).to eq(gateway_duration)
         end
       end
     end
