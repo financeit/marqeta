@@ -191,6 +191,7 @@ describe Marqeta::Transaction do
       Marqeta::Transaction.new(
         'state' => state,
         'response' => {
+          'memo' => response_memo,
           'code' => response_code
         },
         'gpa_order' => gpa_order
@@ -202,6 +203,7 @@ describe Marqeta::Transaction do
         'funding' => {
           'gateway_log' => {
             'duration' => gateway_duration,
+            'message' => gateway_response_memo,
             'response' => {
               'code' => gateway_response_code
             }
@@ -211,7 +213,9 @@ describe Marqeta::Transaction do
     end
     let(:state) { 'RANDOM_STATE' }
     let(:gateway_duration) { 1000 }
+    let(:gateway_response_memo) { "RANDOM_GATEWAY_RESPONSE_MEMO" }
     let(:gateway_response_code) { 'RANDOM_GATEWAY_RESPONSE_CODE' }
+    let(:response_memo) { 'RANDOM_RESPONSE_MEMO' }
     let(:response_code) { 'RANDOM_RESPONSE_CODE' }
 
     describe '#pending?' do
@@ -376,6 +380,32 @@ describe Marqeta::Transaction do
         it 'returns the duration' do
           expect(transaction.gateway_duration).to eq(gateway_duration)
         end
+      end
+    end
+
+    describe '#gateway_response_memo' do
+      context 'when gateway log is not present' do
+        let(:gpa_order) do
+          {
+            'funding' => {}
+          }
+        end
+
+        it 'returns nil' do
+          expect(transaction.gateway_response_memo).to eq(nil)
+        end
+      end
+
+      context 'when gateway log is present' do
+        it 'returns gateway response memo' do
+          expect(transaction.gateway_response_memo).to eq(gateway_response_memo)
+        end
+      end
+    end
+
+    describe '#response_memo' do
+      it 'returns response memo' do
+        expect(transaction.response_memo).to eq(response_memo)
       end
     end
   end
