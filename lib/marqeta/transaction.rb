@@ -68,6 +68,15 @@ module Marqeta
       log.fetch('duration') unless log.nil?
     end
 
+    def gateway_response_memo
+      log = gateway_log
+      log.fetch('message') unless log.nil?
+    end
+
+    def response_memo
+      attributes_hash.fetch('response').fetch('memo')
+    end
+
     def card_acceptor
       CardAcceptor.new(card_acceptor_hash['name'])
     end
