@@ -3,6 +3,8 @@ module Marqeta
     PENDING_STATE = 'PENDING'.freeze
     DECLINED_STATE = 'DECLINED'.freeze
 
+    FORCE_CAPTURE_METHOD = 'pgfs.force_capture'.freeze
+
     CardAcceptor = Struct.new(:name)
 
     def self.index(start_date: nil, user_token: nil)
@@ -67,6 +69,10 @@ module Marqeta
       CardAcceptor.new(card_acceptor_hash['name'])
     end
 
+    def force_capture?
+      method == FORCE_CAPTURE_METHOD
+    end
+
     private
 
     def accessible_attributes
@@ -85,6 +91,12 @@ module Marqeta
 
     def response_code
       attributes_hash.fetch('response').fetch('code')
+    end
+
+    def method
+      attributes_hash['gpa_order']['jit_funding']['method']
+    rescue NoMethodError
+      nil
     end
   end
 end

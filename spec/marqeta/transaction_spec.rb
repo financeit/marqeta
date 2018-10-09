@@ -199,17 +199,25 @@ describe Marqeta::Transaction do
 
     let(:gpa_order) do
       {
-        'funding' => {
-          'gateway_log' => {
-            'response' => {
-              'code' => gateway_response_code
-            }
+        'funding' => funding,
+        'jit_funding' => jit_funding
+      }
+    end
+    let(:funding) do
+      {
+        'gateway_log' => {
+          'response' => {
+            'code' => gateway_response_code
           }
         }
       }
     end
+    let(:jit_funding) do
+      { 'method' => method }
+    end
     let(:state) { 'RANDOM_STATE' }
     let(:gateway_response_code) { 'RANDOM_GATEWAY_RESPONSE_CODE' }
+    let(:method) { 'RANDOM_METHOD' }
     let(:response_code) { 'RANDOM_RESPONSE_CODE' }
 
     describe '#pending?' do
@@ -353,6 +361,30 @@ describe Marqeta::Transaction do
 
         it 'returns true' do
           expect(transaction.exceeding_count_limit?).to eq(true)
+        end
+      end
+    end
+
+    describe '#force_capture?' do
+      context 'when method is not force capture' do
+        it 'returns false' do
+          expect(transaction.force_capture?).to eq(false)
+        end
+      end
+
+      context 'when method is force capture' do
+        let(:method) { 'pgfs.force_capture' }
+
+        it 'returns true' do
+          expect(transaction.force_capture?).to eq(true)
+        end
+      end
+
+      context 'when jit_funding hash is not present' do
+        let(:jit_funding) { nil }
+
+        it 'returns false' do
+          expect(transaction.force_capture?).to eq(false)
         end
       end
     end
