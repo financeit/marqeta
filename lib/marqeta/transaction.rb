@@ -65,6 +65,20 @@ module Marqeta
       response_code == TransactionResponseCodes::EXCEEDING_COUNT_LIMIT
     end
 
+    def gateway_duration
+      log = gateway_log
+      log.fetch('duration') unless log.nil?
+    end
+
+    def gateway_response_memo
+      log = gateway_log
+      log.fetch('message') unless log.nil?
+    end
+
+    def response_memo
+      attributes_hash.fetch('response').fetch('memo')
+    end
+
     def card_acceptor
       CardAcceptor.new(card_acceptor_hash['name'])
     end
@@ -83,10 +97,15 @@ module Marqeta
       attributes_hash['card_acceptor']
     end
 
-    def gateway_response_code
-      attributes_hash['gpa_order']['funding']['gateway_log']['response']['code']
+    def gateway_log
+      attributes_hash['gpa_order']['funding']['gateway_log']
     rescue NoMethodError # Marqeta may send us only a portion of the above fetch (no documentation for the behaviour)
       nil
+    end
+
+    def gateway_response_code
+      log = gateway_log
+      log.fetch('response').fetch('code') unless log.nil?
     end
 
     def response_code
