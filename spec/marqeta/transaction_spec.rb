@@ -200,16 +200,23 @@ describe Marqeta::Transaction do
 
     let(:gpa_order) do
       {
-        'funding' => {
-          'gateway_log' => {
-            'duration' => gateway_duration,
-            'message' => gateway_response_memo,
-            'response' => {
-              'code' => gateway_response_code
-            }
+        'funding' => funding,
+        'jit_funding' => jit_funding
+      }
+    end
+    let(:funding) do
+      {
+        'gateway_log' => {
+          'duration' => gateway_duration,
+          'message' => gateway_response_memo,
+          'response' => {
+            'code' => gateway_response_code
           }
         }
       }
+    end
+    let(:jit_funding) do
+      { 'method' => method }
     end
     let(:state) { 'RANDOM_STATE' }
     let(:gateway_duration) { 1000 }
@@ -217,6 +224,7 @@ describe Marqeta::Transaction do
     let(:gateway_response_code) { 'RANDOM_GATEWAY_RESPONSE_CODE' }
     let(:response_memo) { 'RANDOM_RESPONSE_MEMO' }
     let(:response_code) { 'RANDOM_RESPONSE_CODE' }
+    let(:method) { 'RANDOM_METHOD' }
 
     describe '#pending?' do
       context 'when state is not pending state' do
@@ -406,6 +414,30 @@ describe Marqeta::Transaction do
     describe '#response_memo' do
       it 'returns response memo' do
         expect(transaction.response_memo).to eq(response_memo)
+      end
+    end
+
+    describe '#force_capture?' do
+      context 'when method is not force capture' do
+        it 'returns false' do
+          expect(transaction.force_capture?).to eq(false)
+        end
+      end
+
+      context 'when method is force capture' do
+        let(:method) { 'pgfs.force_capture' }
+
+        it 'returns true' do
+          expect(transaction.force_capture?).to eq(true)
+        end
+      end
+
+      context 'when jit_funding hash is not present' do
+        let(:jit_funding) { nil }
+
+        it 'returns false' do
+          expect(transaction.force_capture?).to eq(false)
+        end
       end
     end
   end
