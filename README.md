@@ -1,5 +1,5 @@
 [ ![Codeship Status for
-financeit/marqeta](https://app.codeship.com/projects/b9d56aa0-fec3-0135-5a6d-462e71abe528/status?branch=master)](https://app.codeship.com/projects/279548)
+financeit/marqeta](https://app.codeship.com/projects/c728ce40-d950-0136-6a02-660e8e347b40/status?branch=master)](https://app.codeship.com/projects/317336)
 
 # Marqeta
 
