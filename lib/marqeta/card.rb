@@ -30,7 +30,7 @@ module Marqeta
     private
 
     def accessible_attributes
-      super + %i[state pan user_token card_product_token fulfillment_status cvv_number expiration pin_is_set]
+      super + %i[state pan user_token card_product_token fulfillment_status cvv_number expiration pin_is_set last_four]
     end
 
     def accessible_time_attributes
