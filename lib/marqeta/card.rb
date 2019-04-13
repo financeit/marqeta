@@ -1,4 +1,5 @@
 require 'marqeta/api_object'
+require 'marqeta/client_access'
 
 module Marqeta
   class Card < ApiObject
