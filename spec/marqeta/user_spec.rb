@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Marqeta::User do
   subject(:user) { Marqeta::User.new(token: user_token, metadata: metadata) }
 

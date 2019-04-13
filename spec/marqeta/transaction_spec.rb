@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Marqeta::Transaction do
   describe 'class methods' do
     describe '.index' do

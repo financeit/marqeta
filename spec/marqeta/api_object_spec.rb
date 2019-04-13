@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Marqeta::ApiObject do
   let(:endpoint) { 'foo' }
 

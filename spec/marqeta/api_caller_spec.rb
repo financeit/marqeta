@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 describe Marqeta::ApiCaller do
   subject(:api_caller) { Marqeta::ApiCaller.new(endpoint, params) }
 
