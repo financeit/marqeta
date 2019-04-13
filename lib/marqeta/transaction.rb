@@ -1,3 +1,4 @@
+require 'marqeta/api_caller'
 require 'marqeta/api_object'
 
 module Marqeta

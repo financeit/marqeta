@@ -1,4 +1,3 @@
-require 'marqeta/api_caller'
 require 'marqeta/card'
 require 'marqeta/client_access'
 require 'marqeta/gateway_response_codes'
