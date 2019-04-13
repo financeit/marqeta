@@ -5,7 +5,6 @@ require 'marqeta/kyc'
 require 'marqeta/one_time'
 require 'marqeta/transaction'
 require 'marqeta/transaction_channels'
-require 'marqeta/transaction_response_codes'
 require 'marqeta/user'
 require 'marqeta/version'
 

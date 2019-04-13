@@ -1,6 +1,7 @@
 require 'marqeta/api_caller'
 require 'marqeta/api_object'
 require 'marqeta/gateway_response_codes'
+require 'marqeta/transaction_response_codes'
 
 module Marqeta
   class Transaction < ApiObject
