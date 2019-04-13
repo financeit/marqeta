@@ -1,5 +1,4 @@
 require 'marqeta/api_caller'
-require 'marqeta/api_object'
 require 'marqeta/card'
 require 'marqeta/client_access'
 require 'marqeta/errors'

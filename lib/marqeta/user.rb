@@ -1,3 +1,5 @@
+require 'marqeta/api_object'
+
 module Marqeta
   class User < ApiObject
     def self.endpoint

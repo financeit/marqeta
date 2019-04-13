@@ -1,3 +1,5 @@
+require 'marqeta/api_object'
+
 module Marqeta
   class Transaction < ApiObject
     PENDING_STATE = 'PENDING'.freeze

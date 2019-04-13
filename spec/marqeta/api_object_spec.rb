@@ -1,3 +1,5 @@
+require 'marqeta/api_object'
+
 describe Marqeta::ApiObject do
   let(:endpoint) { 'foo' }
 

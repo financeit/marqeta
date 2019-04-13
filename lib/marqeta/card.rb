@@ -1,3 +1,5 @@
+require 'marqeta/api_object'
+
 module Marqeta
   class Card < ApiObject
     ACTIVE_STATE = 'ACTIVE'.freeze
