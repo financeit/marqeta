@@ -1,5 +1,6 @@
 require 'json'
 require 'rest-client'
+require 'marqeta/errors'
 
 module Marqeta
   class ApiCaller

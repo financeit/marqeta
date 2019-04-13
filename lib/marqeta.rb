@@ -1,7 +1,6 @@
 require 'marqeta/api_caller'
 require 'marqeta/card'
 require 'marqeta/client_access'
-require 'marqeta/errors'
 require 'marqeta/gateway_response_codes'
 require 'marqeta/kyc'
 require 'marqeta/one_time'
