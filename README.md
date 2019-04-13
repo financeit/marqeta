@@ -50,4 +50,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/financ
 
 [marqeta_api]: https://www.marqeta.com/api
 [financeit]: https://www.financeit.io/
-[hiring]: https://www.financeit.io/ca/en/careers
+[hiring]: https://www.financeit.io/careers
