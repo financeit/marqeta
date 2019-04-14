@@ -21,9 +21,9 @@ describe Marqeta::Card do
       end
 
       it 'posts the pan to an ApiCaller' do
-        expect_any_instance_of(Marqeta::ApiCaller)
-          .to(receive(:post))
-          .with(pan: pan)
+        api_caller = instance_double(Marqeta::ApiCaller)
+        allow(Marqeta::ApiCaller).to receive(:new).and_return(api_caller)
+        expect(api_caller).to receive(:post).with(pan: pan).and_return({})
 
         Marqeta::Card.from_pan(pan)
       end
