@@ -23,15 +23,15 @@ describe Marqeta::ApiCaller do
 
   describe '#get' do
     let(:get) { api_caller.get }
+    let(:resource) { instance_double(RestClient::Resource) }
 
     before do
-      allow_any_instance_of(RestClient::Resource)
-        .to(receive(:get))
-        .and_return(response_hash.to_json)
+      allow(RestClient::Resource).to receive(:new).and_return(resource)
+      allow(resource).to receive(:get).and_return(response_hash.to_json)
     end
 
     it 'sends correct get request to the RestClient Resource' do
-      expect_any_instance_of(RestClient::Resource).to receive(:get)
+      expect(resource).to receive(:get)
       get
     end
 

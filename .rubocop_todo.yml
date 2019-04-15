@@ -19,7 +19,6 @@ Metrics/MethodLength:
 # Offense count: 14
 RSpec/AnyInstance:
   Exclude:
-    - 'spec/marqeta/api_caller_spec.rb'
     - 'spec/marqeta/api_object_spec.rb'
     - 'spec/marqeta/card_spec.rb'
     - 'spec/marqeta/transaction_spec.rb'

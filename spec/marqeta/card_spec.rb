@@ -15,25 +15,22 @@ describe Marqeta::Card do
           .to(receive(:new))
           .with('cards/getbypan')
           .and_call_original
-        fetch_card_from_pan
+        Marqeta::Card.from_pan(pan)
       end
 
       it 'posts the pan to an ApiCaller' do
-        expect_any_instance_of(Marqeta::ApiCaller)
-          .to(receive(:post))
-          .with(pan: pan)
-        fetch_card_from_pan
+        api_caller = instance_double(Marqeta::ApiCaller)
+        allow(Marqeta::ApiCaller).to receive(:new).and_return(api_caller)
+        expect(api_caller).to receive(:post).with(pan: pan).and_return({})
+
+        Marqeta::Card.from_pan(pan)
       end
 
       it 'returns a Card with token set correctly' do
-        card = fetch_card_from_pan
+        card = Marqeta::Card.from_pan(pan)
         expect(card).to be_a(Marqeta::Card)
         expect(card.token).to eq(card_token)
       end
-    end
-
-    def fetch_card_from_pan
-      Marqeta::Card.from_pan(pan)
     end
   end
 
