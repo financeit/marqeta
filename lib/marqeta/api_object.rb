@@ -1,3 +1,5 @@
+require 'marqeta/api_caller'
+
 module Marqeta
   class ApiObject
     QUERY_RESULTS_COUNT = 100
