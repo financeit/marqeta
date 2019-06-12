@@ -25,21 +25,39 @@ module Marqeta
     end
 
     def self.simulate_authorization(payload)
+      payload[:webhook] = webhook if webhook_configured?
+
       ApiCaller.new('simulate/authorization').post(payload)
     end
 
     def self.simulate_reversal(payload)
+      payload[:webhook] = webhook if webhook_configured?
+
       ApiCaller.new('simulate/reversal').post(payload)
     end
 
     def self.simulate_clearing(payload)
       payload[:is_refund] = false
+      payload[:webhook] = webhook if webhook_configured?
       ApiCaller.new('simulate/clearing').post(payload)
     end
 
     def self.simulate_refund(payload)
       payload[:is_refund] = true
+      payload[:webhook] = webhook if webhook_configured?
       ApiCaller.new('simulate/clearing').post(payload)
+    end
+
+    def self.webhook
+      {
+        endpoint: Marqeta.configuration.webhook_endpoint,
+        username: Marqeta.configuration.webhook_username,
+        password: Marqeta.configuration.webhook_password
+      }
+    end
+
+    def self.webhook_configured?
+      !Marqeta.configuration.webhook_endpoint.nil?
     end
 
     def pending?

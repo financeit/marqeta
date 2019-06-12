@@ -1,4 +1,6 @@
 describe Marqeta::Transaction do
+  after(:each) { disable_webhooks }
+
   describe 'class methods' do
     describe '.index' do
       let(:start_date) { Time.new(2018, 1, 1, 0, 0, 0, '-05:00') }
@@ -95,6 +97,14 @@ describe Marqeta::Transaction do
         expect(api_caller).to(receive(:post)).with(payload)
         Marqeta::Transaction.simulate_authorization(payload)
       end
+
+      it 'includes webhook details with payload, if enabled' do
+        enable_webhooks
+
+        expect(api_caller).to(receive(:post)).with(payload_with_webhook)
+
+        Marqeta::Transaction.simulate_authorization(payload)
+      end
     end
 
     describe '.simulate_reversal' do
@@ -118,6 +128,14 @@ describe Marqeta::Transaction do
 
       it 'calls post on ApiCaller with payload' do
         expect(api_caller).to(receive(:post)).with(payload)
+        Marqeta::Transaction.simulate_reversal(payload)
+      end
+
+      it 'includes webhook details with payload, if enabled' do
+        enable_webhooks
+
+        expect(api_caller).to(receive(:post)).with(payload_with_webhook)
+
         Marqeta::Transaction.simulate_reversal(payload)
       end
     end
@@ -151,6 +169,14 @@ describe Marqeta::Transaction do
         expect(api_caller).to(receive(:post)).with(clearing_payload)
         Marqeta::Transaction.simulate_clearing(payload)
       end
+
+      it 'includes webhook details with payload, if enabled' do
+        enable_webhooks
+
+        expect(api_caller).to(receive(:post)).with(clearing_payload_with_webhook)
+
+        Marqeta::Transaction.simulate_clearing(payload)
+      end
     end
 
     describe '.simulate_refund' do
@@ -181,6 +207,14 @@ describe Marqeta::Transaction do
       it 'calls post on ApiCaller with payload' do
         expect(api_caller).to(receive(:post)).with(clearing_payload)
         Marqeta::Transaction.simulate_refund(payload)
+      end
+
+      it 'includes webhook details with payload, if enabled' do
+        enable_webhooks
+
+        expect(api_caller).to(receive(:post)).with(clearing_payload_with_webhook)
+
+        Marqeta::Transaction.simulate_refund(clearing_payload)
       end
     end
   end
@@ -466,5 +500,33 @@ describe Marqeta::Transaction do
         end
       end
     end
+  end
+
+  def enable_webhooks
+    Marqeta.configuration.webhook_endpoint = "https://example.com/webhook"
+    Marqeta.configuration.webhook_username = "username"
+    Marqeta.configuration.webhook_password = "password"
+  end
+
+  def disable_webhooks
+    Marqeta.configuration.webhook_endpoint = nil
+    Marqeta.configuration.webhook_username = nil
+    Marqeta.configuration.webhook_password = nil
+  end
+
+  def clearing_payload_with_webhook
+    clearing_payload.merge(webhook: webhook)
+  end
+
+  def payload_with_webhook
+    payload.merge(webhook: webhook)
+  end
+
+  def webhook
+    {
+      endpoint: "https://example.com/webhook",
+      username: "username",
+      password: "password"
+    }
   end
 end

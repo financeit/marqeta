@@ -36,6 +36,15 @@ Marqeta.configure do |config|
 end
 ```
 
+You can also provide an optional webhook configuration to be used for simulation
+endpoints:
+
+```ruby
+  config.webhook_endpoint = "https://example.com/webhook"
+  config.webhook_username = "username"
+  config.webhook_password = "password"
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
