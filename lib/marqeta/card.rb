@@ -1,3 +1,4 @@
+# typed: false
 require 'marqeta/api_object'
 require 'marqeta/client_access'
 

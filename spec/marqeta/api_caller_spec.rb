@@ -1,3 +1,4 @@
+# typed: false
 describe Marqeta::ApiCaller do
   subject(:api_caller) { Marqeta::ApiCaller.new(endpoint, params) }
 

@@ -1,3 +1,4 @@
+# typed: false
 describe Marqeta::Card do
   let(:pan) { '1234567890' }
   let(:card_token) { 'CARD_TOKEN' }
