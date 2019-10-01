@@ -1,3 +1,4 @@
+# typed: true
 module Marqeta
   class TransactionResponseCodes
     EXCEEDING_AMOUNT_LIMIT = '1834'.freeze

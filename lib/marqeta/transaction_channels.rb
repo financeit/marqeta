@@ -1,3 +1,4 @@
+# typed: true
 module Marqeta
   class TransactionChannels
     ECOMMERCE = 'ECOMMERCE'.freeze

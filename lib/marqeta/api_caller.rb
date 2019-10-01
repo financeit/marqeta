@@ -1,3 +1,4 @@
+# typed: true
 require 'json'
 require 'rest-client'
 require 'marqeta/errors'

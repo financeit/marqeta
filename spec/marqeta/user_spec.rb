@@ -1,3 +1,4 @@
+# typed: false
 describe Marqeta::User do
   subject(:user) { Marqeta::User.new(token: user_token, metadata: metadata) }
 

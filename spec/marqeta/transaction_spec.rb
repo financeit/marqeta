@@ -1,3 +1,4 @@
+# typed: false
 describe Marqeta::Transaction do
   after(:each) { disable_webhooks }
 
