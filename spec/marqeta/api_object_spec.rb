@@ -170,18 +170,12 @@ describe Marqeta::ApiObject do
   describe 'instance methods' do
     subject(:api_object) { Marqeta::ApiObject.new(attributes_hash) }
 
-    let(:attributes_hash) { { a: 1, b: 2, c: 2 } }
+    let(:attributes_hash) { { token: 123, created_time: "2019-02-01"} }
 
     describe 'attributes hash' do
-      before do
-        allow(api_object)
-          .to(receive(:accessible_attributes))
-          .and_return(%i[a b])
-      end
-
-      it 'allows whitelisted attributes to be called as methods' do
-        expect(api_object.a).to eq(1)
-        expect(api_object.b).to eq(2)
+      it 'allows attributes to be called as methods' do
+        expect(api_object.token).to eq(123)
+        expect(api_object.created_time).to eq(Time.new(2019, 2, 1))
       end
 
       it 'raises error when calling non-whitelisted attribute as method' do
