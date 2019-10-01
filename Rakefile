@@ -9,4 +9,9 @@ RuboCop::RakeTask.new(:rubocop) do |task|
   task.options = ["--display-cop-names"]
 end
 
-task default: %i[spec rubocop]
+desc "Run Sorbet type checking"
+task(:srb) do |task|
+  sh('srb tc')
+end
+
+task default: %i[srb spec rubocop]
