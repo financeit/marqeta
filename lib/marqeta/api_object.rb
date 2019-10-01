@@ -40,38 +40,20 @@ module Marqeta
       results.map { |data_hash| klass.new(data_hash) }
     end
 
-    def method_missing(method_name, *args, &block)
-      if respond_to_missing?(method_name)
-        attribute_value(method_name)
-      else
-        super
-      end
+    def token
+      symbolized_attributes_hash[:token]
     end
 
-    def respond_to_missing?(method_name, include_private = false)
-      accessible_attributes.include?(method_name) || super
+    def created_time
+      Time.parse(symbolized_attributes_hash[:created_time])
     end
 
     private
 
     attr_accessor :attributes_hash
 
-    def accessible_attributes
-      [:token] + accessible_time_attributes
-    end
-
-    def accessible_time_attributes
-      %i[created_time]
-    end
-
     def symbolized_attributes_hash
       Hash[attributes_hash.map { |k, v| [k.to_sym, v] }]
-    end
-
-    def attribute_value(attribute)
-      value = symbolized_attributes_hash[attribute]
-      value = Time.parse(value) if accessible_time_attributes.include?(attribute)
-      value
     end
   end
 end
