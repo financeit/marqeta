@@ -1,3 +1,4 @@
+# typed: true
 require 'marqeta/api_object'
 
 module Marqeta

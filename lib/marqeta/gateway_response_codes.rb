@@ -1,3 +1,4 @@
+# typed: true
 module Marqeta
   class GatewayResponseCodes
     DECLINED_BY_JIT = '402'.freeze
