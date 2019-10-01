@@ -1,4 +1,5 @@
 # typed: true
+require 'marqeta/card'
 require 'marqeta/api_object'
 
 module Marqeta

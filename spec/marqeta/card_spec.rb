@@ -1,4 +1,6 @@
 # typed: false
+require "marqeta/card"
+
 describe Marqeta::Card do
   let(:pan) { '1234567890' }
   let(:card_token) { 'CARD_TOKEN' }
@@ -140,7 +142,8 @@ describe Marqeta::Card do
 
     describe '#create_client_access' do
       it "creates a ClientAccess resource passing in the card's token" do
-        expect(Marqeta::ClientAccess).to receive(:api_create).with(card_token: card_token)
+        api_object = Marqeta::ApiObject.new({})
+        expect(Marqeta::ClientAccess).to receive(:api_create).with(card_token: card_token).and_return(api_object)
         card.create_client_access
       end
     end

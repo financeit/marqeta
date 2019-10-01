@@ -171,11 +171,11 @@ describe Marqeta::ApiObject do
   describe 'instance methods' do
     subject(:api_object) { Marqeta::ApiObject.new(attributes_hash) }
 
-    let(:attributes_hash) { { token: 123, created_time: "2019-02-01"} }
+    let(:attributes_hash) { { token: "123", created_time: "2019-02-01"} }
 
     describe 'attributes hash' do
       it 'allows attributes to be called as methods' do
-        expect(api_object.token).to eq(123)
+        expect(api_object.token).to eq("123")
         expect(api_object.created_time).to eq(Time.new(2019, 2, 1))
       end
 

@@ -3,16 +3,20 @@ require 'marqeta/api_caller'
 
 module Marqeta
   class ApiObject
+    extend T::Sig
+
     QUERY_RESULTS_COUNT = 100
 
     def initialize(attributes_hash)
       self.attributes_hash = attributes_hash
     end
 
+    sig {params(payload: T.untyped).returns(Marqeta::ApiObject)}
     def self.api_create(payload = {})
       new(ApiCaller.new(endpoint).post(payload))
     end
 
+    sig {params(token: T.untyped).returns(Marqeta::ApiObject)}
     def self.api_retrieve(token)
       new(ApiCaller.new("#{endpoint}/#{token}").get)
     end
@@ -21,6 +25,7 @@ module Marqeta
       raise 'must be implemented in subclass'
     end
 
+    sig {params(klass: T.untyped, endpoint: T.untyped).returns(T::Array[T.untyped])}
     def self.object_list(klass, endpoint)
       results = []
       start_index = 0
@@ -41,10 +46,12 @@ module Marqeta
       results.map { |data_hash| klass.new(data_hash) }
     end
 
+    sig {returns(String)}
     def token
       symbolized_attributes_hash[:token]
     end
 
+    sig {returns(Time)}
     def created_time
       Time.parse(symbolized_attributes_hash[:created_time])
     end
@@ -53,6 +60,7 @@ module Marqeta
 
     attr_accessor :attributes_hash
 
+    sig { returns(T::Hash[Symbol, T.untyped]) }
     def symbolized_attributes_hash
       Hash[attributes_hash.map { |k, v| [k.to_sym, v] }]
     end

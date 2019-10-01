@@ -5,11 +5,15 @@ require 'marqeta/errors'
 
 module Marqeta
   class ApiCaller
+    extend T::Sig
+
+    sig { params(endpoint: String, params: Hash).void }
     def initialize(endpoint, params = {})
       @endpoint = endpoint
       @endpoint += "?#{URI.encode_www_form(params)}" if params.any?
     end
 
+    sig { returns(T.untyped) }
     def get
       logger.info("GET: #{endpoint}")
       begin
@@ -22,6 +26,7 @@ module Marqeta
       end
     end
 
+    sig { params(payload: Hash).returns(T.untyped) }
     def post(payload)
       json_payload = payload.to_json
       logger.info "POST: #{endpoint}, #{json_payload}"
@@ -51,6 +56,7 @@ module Marqeta
       Marqeta.configuration.logger
     end
 
+    sig { params(response: String).returns(Hash) }
     def handle_successful_response(response)
       logger.info("Response: #{response}")
       JSON.parse(response)
