@@ -1,4 +1,4 @@
-# typed: false
+# typed: true
 require 'marqeta/api_caller'
 
 module Marqeta
@@ -24,7 +24,7 @@ module Marqeta
     def self.object_list(klass, endpoint)
       results = []
       start_index = 0
-      is_more = true
+      is_more = T.let(true, T::Boolean)
 
       while is_more
         paginated_params = {
