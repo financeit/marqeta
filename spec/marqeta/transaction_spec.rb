@@ -1,3 +1,4 @@
+# typed: false
 describe Marqeta::Transaction do
   describe 'class methods' do
     describe '.index' do
