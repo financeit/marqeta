@@ -53,7 +53,7 @@ module Marqeta
     attr_accessor :attributes_hash
 
     def symbolized_attributes_hash
-      Hash[attributes_hash.map { |k, v| [k.to_sym, v] }]
+      Hash[attributes_hash.to_h.map { |k, v| [k.to_sym, v] }]
     end
   end
 end
