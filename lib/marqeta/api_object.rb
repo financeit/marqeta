@@ -53,7 +53,9 @@ module Marqeta
     attr_accessor :attributes_hash
 
     def symbolized_attributes_hash
-      Hash[attributes_hash.to_h.map { |k, v| [k.to_sym, v] }]
+      new_array = []
+      attributes_hash.each{ |k, v| new_array << [k.to_sym, v] }
+      Hash[new_array]
     end
   end
 end
