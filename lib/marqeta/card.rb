@@ -30,44 +30,14 @@ module Marqeta
       ClientAccess.api_create(card_token: token)
     end
 
-    def expiration_time
-      Time.parse(symbolized_attributes_hash[:expiration_time])
+    private
+
+    def accessible_attributes
+      super + %i[state pan user_token card_product_token fulfillment_status cvv_number expiration pin_is_set last_four]
     end
 
-    def state
-      symbolized_attributes_hash[:state]
-    end
-
-    def pan
-      symbolized_attributes_hash[:pan]
-    end
-
-    def user_token
-      symbolized_attributes_hash[:user_token]
-    end
-
-    def card_product_token
-      symbolized_attributes_hash[:card_product_token]
-    end
-
-    def fulfillment_status
-      symbolized_attributes_hash[:fulfillment_status]
-    end
-
-    def cvv_number
-      symbolized_attributes_hash[:cvv_number]
-    end
-
-    def expiration
-      symbolized_attributes_hash[:expiration]
-    end
-
-    def pin_is_set
-      symbolized_attributes_hash[:pin_is_set]
-    end
-
-    def last_four
-      symbolized_attributes_hash[:last_four]
+    def accessible_time_attributes
+      super + %i[expiration_time]
     end
   end
 end
