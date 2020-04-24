@@ -32,8 +32,10 @@ module Marqeta
       metadata[key.to_s]
     end
 
-    def user_token
-      symbolized_attributes_hash[:parent_token]
+    private
+
+    def accessible_attributes
+      super + %i[parent_token]
     end
   end
 end

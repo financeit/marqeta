@@ -60,26 +60,6 @@ module Marqeta
       !Marqeta.configuration.webhook_endpoint.nil?
     end
 
-    def state
-      symbolized_attributes_hash[:state]
-    end
-
-    def user_token
-      symbolized_attributes_hash[:user_token]
-    end
-
-    def card_token
-      symbolized_attributes_hash[:card_token]
-    end
-
-    def amount
-      symbolized_attributes_hash[:amount]
-    end
-
-    def preceding_related_transaction_token
-      symbolized_attributes_hash[:preceding_related_transaction_token]
-    end
-
     def pending?
       state == PENDING_STATE
     end
@@ -136,6 +116,10 @@ module Marqeta
     end
 
     private
+
+    def accessible_attributes
+      super + %i[state user_token card_token amount preceding_related_transaction_token]
+    end
 
     def card_acceptor_hash
       attributes_hash['card_acceptor']
