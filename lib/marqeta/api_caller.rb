@@ -34,6 +34,19 @@ module Marqeta
       end
     end
 
+    def put(payload)
+      json_payload = payload.to_json
+      logger.info "PUT: #{endpoint}, #{json_payload}"
+      begin
+        response = resource.put(json_payload, content_type: 'application/json')
+        handle_successful_response response
+      rescue RestClient::ExceptionWithResponse => e
+        handle_exception_with_response e
+      rescue *HttpError::ERROR_LIST => e
+        handle_http_error e
+      end
+    end
+
     private
 
     attr_reader :endpoint
