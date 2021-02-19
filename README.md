@@ -10,7 +10,7 @@ An API client library for the [Marqeta API][marqeta_api].
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'marqeta', github: 'financeit/marqeta'
+gem 'marqeta', git: 'https://github.com/Kikoff/marqeta'
 ```
 
 (The gem has not yet been released on rubygems.org)
