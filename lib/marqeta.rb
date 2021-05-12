@@ -13,6 +13,7 @@ module Marqeta
     attr_accessor :username,
       :password,
       :base_url,
+      :diva_url,
       :logger,
       :webhook_endpoint,
       :webhook_username,
