@@ -11,21 +11,28 @@ module Marqeta
 
     def get
       logger.info("GET: #{endpoint}")
-      begin
-        response = resource.get
-        handle_successful_response response
-      rescue RestClient::ExceptionWithResponse => e
-        handle_exception_with_response e
-      rescue *HttpError::ERROR_LIST => e
-        handle_http_error e
-      end
+      perform_action { resource.get }
     end
 
     def post(payload)
       json_payload = payload.to_json
       logger.info "POST: #{endpoint}, #{json_payload}"
+      perform_action { resource.post(json_payload, content_type: 'application/json') }
+    end
+
+    def put(payload)
+      json_payload = payload.to_json
+      logger.info "PUT: #{endpoint}, #{json_payload}"
+      perform_action { resource.put(json_payload, content_type: 'application/json') }
+    end
+
+    private
+
+    attr_reader :endpoint
+
+    def perform_action
       begin
-        response = resource.post(json_payload, content_type: 'application/json')
+        response = yield
         handle_successful_response response
       rescue RestClient::ExceptionWithResponse => e
         handle_exception_with_response e
@@ -33,10 +40,6 @@ module Marqeta
         handle_http_error e
       end
     end
-
-    private
-
-    attr_reader :endpoint
 
     def resource
       @resource ||= RestClient::Resource.new(
