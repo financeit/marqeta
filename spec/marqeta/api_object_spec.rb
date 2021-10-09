@@ -79,6 +79,43 @@ describe Marqeta::ApiObject do
       end
     end
 
+    describe '.api_update' do
+      let(:token) { 'TOKEN' }
+      let(:payload) { { 'foo' => 'bar', 'biz' => 'baz' } }
+      let(:response_hash) { { 'a' => 1, 'b' => 2 } }
+
+      before do
+        allow_any_instance_of(Marqeta::ApiCaller)
+          .to(receive(:put))
+          .with(payload)
+          .and_return(response_hash)
+      end
+
+      it 'creates an ApiCaller with the endpoint' do
+        expect(Marqeta::ApiCaller)
+          .to(receive(:new))
+          .with(endpoint + '/' + token)
+          .and_call_original
+        Marqeta::ApiObject.api_update(token, payload)
+      end
+
+      it 'puts the payload to an ApiCaller' do
+        expect_any_instance_of(Marqeta::ApiCaller)
+          .to(receive(:put))
+          .with(payload)
+        Marqeta::ApiObject.api_update(token, payload)
+      end
+
+      it 'creates and returns ApiObject with response sent to initializer' do
+        expect(Marqeta::ApiObject)
+          .to(receive(:new))
+          .with(response_hash)
+          .and_call_original
+        result = Marqeta::ApiObject.api_update(token, payload)
+        expect(result).to(be_a(Marqeta::ApiObject))
+      end
+    end
+
     describe '.object_list' do
       let(:endpoint) { 'endpoint' }
 

@@ -71,4 +71,31 @@ describe Marqeta::ApiCaller do
       api_caller.post(payload)
     end
   end
+
+  describe '#put' do
+    let(:payload) { { 'foo' => 'bar', 'biz' => 'baz' } }
+
+    before do
+      allow_any_instance_of(RestClient::Resource)
+        .to(receive(:put))
+        .and_return(response_hash.to_json)
+    end
+
+    it 'sends correct put request to the RestClient Resource' do
+      expect_any_instance_of(RestClient::Resource)
+        .to receive(:put)
+        .with(payload.to_json, content_type: 'application/json')
+      api_caller.put(payload)
+    end
+
+    it 'returns parsed JSON response' do
+      result = api_caller.put(payload)
+      expect(result).to eq(response_hash)
+    end
+
+    it 'logs the request and response' do
+      expect(Marqeta.configuration.logger).to(receive(:info)).twice
+      api_caller.put(payload)
+    end
+  end
 end
