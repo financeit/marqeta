@@ -16,6 +16,10 @@ module Marqeta
       new(ApiCaller.new("#{endpoint}/#{token}").get)
     end
 
+    def self.api_update(token, payload = {})
+      new(ApiCaller.new("#{endpoint}/#{token}").put(payload))
+    end
+
     def self.endpoint
       raise 'must be implemented in subclass'
     end
