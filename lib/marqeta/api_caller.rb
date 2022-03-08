@@ -62,7 +62,7 @@ module Marqeta
 
     def handle_exception_with_response(e)
       error = ApiError.new(e.response)
-      logger.error(error)
+      logger.error(error.to_s)
       raise error
     end
 
