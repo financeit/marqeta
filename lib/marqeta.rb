@@ -7,6 +7,7 @@ require 'marqeta/transaction'
 require 'marqeta/transaction_channels'
 require 'marqeta/user'
 require 'marqeta/version'
+require 'marqeta/webhook'
 
 module Marqeta
   class Configuration
@@ -17,7 +18,10 @@ module Marqeta
       :logger,
       :webhook_endpoint,
       :webhook_username,
-      :webhook_password
+      :webhook_password,
+      :host,
+      :version,
+      :proxy
   end
 
   class << self
