@@ -6,6 +6,10 @@ module Marqeta
       'users'
     end
 
+    def dashboard_url
+      "#{Marqeta.configuration.dashboard_base_url}/program/user?token=#{token}"
+    end
+
     def cards
       ApiObject.object_list(Card, "cards/user/#{token}")
     end

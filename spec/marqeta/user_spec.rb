@@ -4,6 +4,12 @@ describe Marqeta::User do
   let(:user_token) { 'user_token' }
   let(:metadata) { nil }
 
+  describe '#dashboard_url' do
+    it 'returns the dashboard_url' do
+      expect(user.dashboard_url).to eq('www.dashboard.com/program/user?token=user_token')
+    end
+  end
+
   describe '#cards' do
     it 'calls object_list method with expected params' do
       expect(Marqeta::ApiObject).to receive(:object_list).with(Marqeta::Card, "cards/user/#{user_token}")

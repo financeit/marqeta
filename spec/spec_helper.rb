@@ -13,6 +13,7 @@ RSpec.configure do |config|
       marqeta_config.username = 'foo'
       marqeta_config.password = 'bar'
       marqeta_config.base_url = 'www.foo.com'
+      marqeta_config.dashboard_base_url = 'www.dashboard.com'
       marqeta_config.logger = Logger.new(nil)
     end
   end
