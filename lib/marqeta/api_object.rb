@@ -8,8 +8,8 @@ module Marqeta
       self.attributes_hash = attributes_hash
     end
 
-    def self.api_create(payload = {}, params = {})
-      new(ApiCaller.new(endpoint, params).post(payload))
+    def self.api_create(payload = {})
+      new(ApiCaller.new(endpoint).post(payload))
     end
 
     def self.api_retrieve(token)
