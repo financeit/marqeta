@@ -12,6 +12,7 @@ describe Marqeta::ApiObject do
   describe 'class methods' do
     describe '.api_create' do
       let(:payload) { { 'foo' => 'bar', 'biz' => 'baz' } }
+      let(:query_params) { { 'foo' => 'bar' } }
       let(:response_hash) { { 'a' => 1, 'b' => 2 } }
 
       before do
@@ -23,9 +24,9 @@ describe Marqeta::ApiObject do
       it 'creates an ApiCaller with the endpoint' do
         expect(Marqeta::ApiCaller)
           .to(receive(:new))
-          .with(endpoint)
+          .with(endpoint, query_params)
           .and_call_original
-        Marqeta::ApiObject.api_create(payload)
+        Marqeta::ApiObject.api_create(payload, query_params)
       end
 
       it 'posts the payload to an ApiCaller' do
