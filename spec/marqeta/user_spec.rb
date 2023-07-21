@@ -26,37 +26,37 @@ describe Marqeta::User do
 
   describe '#create_child' do
     it "creates a User resource passing in the user's token and uses_parent_account: true" do
-      expect(Marqeta::User).to receive(:api_create).with(parent_token: user_token, uses_parent_account: false)
+      expect(Marqeta::User).to receive(:api_create).with({ parent_token: user_token, uses_parent_account: false })
       user.create_child
     end
 
     it 'allows passing in extra parameters' do
       extra_params = { foo: 'bar' }
-      expect(Marqeta::User).to receive(:api_create).with(
+      expect(Marqeta::User).to receive(:api_create).with({
         parent_token: user_token,
         uses_parent_account: false,
-        foo: 'bar'
-      )
+        foo: 'bar',
+      })
       user.create_child(extra_params)
     end
   end
 
   describe '#create_onetime' do
     it "creates a OneTime resource passing in the user's token" do
-      expect(Marqeta::OneTime).to receive(:api_create).with(user_token: user_token)
+      expect(Marqeta::OneTime).to receive(:api_create).with({ user_token: user_token })
       user.create_onetime
     end
   end
 
   describe '#perform_kyc' do
     it "creates a Kyc resource passing in the user's token" do
-      expect(Marqeta::Kyc).to receive(:api_create).with(user_token: user_token)
+      expect(Marqeta::Kyc).to receive(:api_create).with({ user_token: user_token })
       user.perform_kyc
     end
 
     it 'allows passing in extra parameters' do
       extra_params = { manual_override: true }
-      expect(Marqeta::Kyc).to receive(:api_create).with(user_token: user_token, manual_override: true)
+      expect(Marqeta::Kyc).to receive(:api_create).with({ user_token: user_token, manual_override: true })
       user.perform_kyc(extra_params)
     end
   end
