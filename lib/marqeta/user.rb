@@ -19,7 +19,22 @@ module Marqeta
     end
 
     def create_child(extra_params = {})
-      self.class.api_create(extra_params.merge(uses_parent_account: false, parent_token: token))
+      retrieved_self = self.class.api_retrieve(token)
+      self.class.api_create(
+        extra_params.merge(
+          uses_parent_account: false,
+          parent_token: token,
+          first_name: retrieved_self.first_name,
+          last_name: retrieved_self.last_name,
+          address1: retrieved_self.address1,
+          address2: retrieved_self.address2,
+          city: retrieved_self.city,
+          state: retrieved_self.state,
+          zip: retrieved_self.zip,
+          country: retrieved_self.country,
+          birth_date: retrieved_self.birth_date,
+        )
+      )
     end
 
     def children
@@ -39,7 +54,18 @@ module Marqeta
     private
 
     def accessible_attributes
-      super + %i[parent_token]
+      super + %i[
+        parent_token
+        first_name
+        last_name
+        address1
+        address2
+        city
+        state
+        zip
+        country
+        birth_date
+      ]
     end
   end
 end

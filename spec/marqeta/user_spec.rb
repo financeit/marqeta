@@ -1,8 +1,21 @@
 describe Marqeta::User do
-  subject(:user) { Marqeta::User.new(token: user_token, metadata: metadata) }
+  subject(:user) { Marqeta::User.new({ token: user_token, metadata: metadata }.merge(user_info_hash)) }
 
   let(:user_token) { 'user_token' }
   let(:metadata) { nil }
+  let(:user_info_hash) do
+    {
+      first_name: 'John',
+      last_name: 'Doh',
+      address1: '123 Main St.',
+      address2: 'Unit 2',
+      city: 'Toronto',
+      state: 'ON',
+      zip: 'M1S3G2',
+      country: 'Canada',
+      birth_date: '2020-01-01',
+    }
+  end
 
   describe '#dashboard_url' do
     it 'returns the dashboard_url' do
@@ -25,8 +38,12 @@ describe Marqeta::User do
   end
 
   describe '#create_child' do
+    before do
+      allow(Marqeta::User).to receive(:api_retrieve).with(user_token).and_return(user)
+    end
+
     it "creates a User resource passing in the user's token and uses_parent_account: true" do
-      expect(Marqeta::User).to receive(:api_create).with({ parent_token: user_token, uses_parent_account: false })
+      expect(Marqeta::User).to receive(:api_create).with({ parent_token: user_token, uses_parent_account: false }.merge(user_info_hash))
       user.create_child
     end
 
@@ -36,7 +53,7 @@ describe Marqeta::User do
         parent_token: user_token,
         uses_parent_account: false,
         foo: 'bar',
-      })
+      }.merge(user_info_hash))
       user.create_child(extra_params)
     end
   end
