@@ -20,11 +20,11 @@ module Marqeta
     end
 
     def http_code
-      @response.code
+      @response.status
     end
 
     def http_code_description
-      RestClient::STATUSES[http_code]
+      Faraday::Response::StatusReasons[http_code]
     end
 
     def error_code
@@ -42,7 +42,7 @@ module Marqeta
     private
 
     def response_hash
-      @response_hash ||= JSON.parse(@response)
+      @response_hash ||= JSON.parse(@response.body)
     end
   end
 end

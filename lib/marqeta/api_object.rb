@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'marqeta/api_caller'
+require 'time'
 
 module Marqeta
   class ApiObject
