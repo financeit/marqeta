@@ -1,52 +1,58 @@
 require 'json'
-require 'rest-client'
+require 'faraday'
 require 'marqeta/errors'
 
 module Marqeta
   class ApiCaller
     def initialize(endpoint, params = {})
       @endpoint = endpoint
-      @endpoint += "?#{URI.encode_www_form(params)}" if params.any?
+      @connection = Faraday.new(url: "http://" + Marqeta.configuration.base_url) do |conn|
+        conn.request :authorization, :basic, Marqeta.configuration.username, Marqeta.configuration.password
+        conn.response :logger, logger
+        conn.params = params
+        conn.headers['Content-Type'] = 'application/json'
+      end
+    end
+
+    def full_url
+      @connection.build_url(@endpoint).to_s
     end
 
     def get
-      logger.info("GET: #{endpoint}")
-      perform_action { resource.get }
+      perform_action { @connection.get(@endpoint) }
     end
 
     def post(payload)
       json_payload = payload.to_json
-      logger.info "POST: #{endpoint}, #{json_payload}"
-      perform_action { resource.post(json_payload, content_type: 'application/json') }
+      perform_action { @connection.post(@endpoint, json_payload) }
     end
 
     def put(payload)
       json_payload = payload.to_json
-      logger.info "PUT: #{endpoint}, #{json_payload}"
-      perform_action { resource.put(json_payload, content_type: 'application/json') }
+      perform_action { @connection.put(@endpoint, json_payload) }
     end
 
     private
 
     attr_reader :endpoint
+    attr_reader :connection
 
     def perform_action
       begin
         response = yield
         handle_successful_response response
-      rescue RestClient::ExceptionWithResponse => e
-        handle_exception_with_response e
+      rescue Faraday::ClientError => e
+        handle_exception_with_response(e)
       rescue *HttpError::ERROR_LIST => e
         handle_http_error e
       end
     end
 
-    def resource
-      @resource ||= RestClient::Resource.new(
-        Marqeta.configuration.base_url + endpoint,
-        Marqeta.configuration.username,
-        Marqeta.configuration.password
-      )
+    def connection
+      @connection ||= Faraday.new(url: Marqeta.configuration.base_url + endpoint) do |conn|
+        conn.request :authorization, :basic, Marqeta.configuration.username, Marqeta.configuration.password
+        conn.headers['Content-Type'] = 'application/json'
+      end
     end
 
     def logger
@@ -54,8 +60,7 @@ module Marqeta
     end
 
     def handle_successful_response(response)
-      logger.info("Response: #{response}")
-      JSON.parse(response)
+      JSON.parse(response.body)
     rescue JSON::ParserError
       {}
     end
