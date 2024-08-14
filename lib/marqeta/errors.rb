@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Marqeta
   class HttpError < StandardError
     # From https://github.com/thoughtbot/suspenders/blob/master/templates/errors.rb

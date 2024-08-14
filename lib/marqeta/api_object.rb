@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'marqeta/api_caller'
 
 module Marqeta
@@ -32,7 +34,7 @@ module Marqeta
       while is_more
         paginated_params = {
           count: QUERY_RESULTS_COUNT,
-          start_index: start_index
+          start_index:
         }
         paginated_endpoint = "#{endpoint}?#{URI.encode_www_form(paginated_params)}"
         response = ApiCaller.new(paginated_endpoint).get
@@ -70,7 +72,7 @@ module Marqeta
 
     def symbolized_attributes_hash
       new_array = []
-      attributes_hash.each{ |k, v| new_array << [k.to_sym, v] }
+      attributes_hash.each { |k, v| new_array << [k.to_sym, v] }
       Hash[new_array]
     end
 

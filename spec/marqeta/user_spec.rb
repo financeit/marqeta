@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 describe Marqeta::User do
-  subject(:user) { Marqeta::User.new(token: user_token, metadata: metadata) }
+  subject(:user) { Marqeta::User.new(token: user_token, metadata:) }
 
   let(:user_token) { 'user_token' }
   let(:metadata) { nil }
@@ -63,7 +65,7 @@ describe Marqeta::User do
 
   describe '#metadata_attribute' do
     it 'returns nil if there is no metadata' do
-      expect(user.metadata_attribute(:foo)).to eq(nil)
+      expect(user.metadata_attribute(:foo)).to be_nil
     end
 
     context 'when metadata is present' do
@@ -74,7 +76,7 @@ describe Marqeta::User do
       end
 
       it 'returns nil if metadata attribute is not present' do
-        expect(user.metadata_attribute(:baz)).to eq(nil)
+        expect(user.metadata_attribute(:baz)).to be_nil
       end
     end
   end

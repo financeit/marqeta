@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'marqeta/api_object'
 
 module Marqeta
