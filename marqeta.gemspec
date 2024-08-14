@@ -37,5 +37,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop"
   spec.add_development_dependency "rubocop-rspec"
 
-  spec.add_dependency "rest-client"
+  spec.add_dependency "faraday"
 end
