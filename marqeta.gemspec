@@ -37,4 +37,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rubocop-rspec"
 
   spec.add_dependency "rest-client"
+
+  spec.required_ruby_version = '>= 3.1.0'
 end
