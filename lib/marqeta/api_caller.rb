@@ -6,8 +6,8 @@ module Marqeta
   class ApiCaller
     def initialize(endpoint, params = {})
       @endpoint = endpoint
-      @connection = Faraday.new(url: "http://" + Marqeta.configuration.base_url) do |conn|
-        conn.request :authorization, :basic, Marqeta.configuration.username, Marqeta.configuration.password
+      @connection = Faraday.new(url: Marqeta.configuration.base_url) do |conn|
+        conn.request :basic_auth, Marqeta.configuration.username, Marqeta.configuration.password
         conn.response :logger, logger
         conn.params = params
         conn.headers['Content-Type'] = 'application/json'

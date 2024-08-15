@@ -1,4 +1,6 @@
 module Marqeta
+  require 'net/http'
+
   class HttpError < StandardError
     # From https://github.com/thoughtbot/suspenders/blob/master/templates/errors.rb
     ERROR_LIST = [

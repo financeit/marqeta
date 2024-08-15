@@ -6,7 +6,7 @@ describe Marqeta::User do
 
   describe '#dashboard_url' do
     it 'returns the dashboard_url' do
-      expect(user.dashboard_url).to eq('www.dashboard.com/program/user?token=user_token')
+      expect(user.dashboard_url).to eq('http://www.dashboard.com/program/user?token=user_token')
     end
   end
 
