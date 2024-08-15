@@ -17,7 +17,7 @@ describe Marqeta::ApiCaller do
       let(:params) { { foo: 'bar', biz: 'biz:baz' } }
 
       it 'sets final endpoint to have the params URI encoded' do
-        expect(full_url).to eq("http://#{Marqeta.configuration.base_url}/#{endpoint}?biz=biz%3Abaz&foo=bar")
+        expect(full_url).to eq("#{Marqeta.configuration.base_url}/#{endpoint}?biz=biz%3Abaz&foo=bar")
       end
     end
   end
