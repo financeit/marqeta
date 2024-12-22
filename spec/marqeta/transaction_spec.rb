@@ -40,7 +40,7 @@ describe Marqeta::Transaction do
           type: 'authorization',
           state: 'ALL',
           start_date: '2018-01-01T00:00:00.000-0500',
-          user_token: user_token
+          user_token:
         }
 
         expect(Marqeta::ApiCaller)
@@ -70,7 +70,7 @@ describe Marqeta::Transaction do
       end
 
       def fetch_transactions
-        Marqeta::Transaction.index(start_date: start_date, user_token: user_token)
+        Marqeta::Transaction.index(start_date:, user_token:)
       end
     end
 
@@ -515,11 +515,11 @@ describe Marqeta::Transaction do
   end
 
   def clearing_payload_with_webhook
-    clearing_payload.merge(webhook: webhook)
+    clearing_payload.merge(webhook:)
   end
 
   def payload_with_webhook
-    payload.merge(webhook: webhook)
+    payload.merge(webhook:)
   end
 
   def webhook

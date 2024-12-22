@@ -11,13 +11,13 @@ require 'marqeta/version'
 module Marqeta
   class Configuration
     attr_accessor :username,
-      :password,
-      :base_url,
-      :dashboard_base_url,
-      :logger,
-      :webhook_endpoint,
-      :webhook_username,
-      :webhook_password
+                  :password,
+                  :base_url,
+                  :dashboard_base_url,
+                  :logger,
+                  :webhook_endpoint,
+                  :webhook_username,
+                  :webhook_password
   end
 
   class << self

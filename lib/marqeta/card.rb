@@ -10,7 +10,7 @@ module Marqeta
     end
 
     def self.from_pan(pan)
-      result = ApiCaller.new('cards/getbypan').post(pan: pan)
+      result = ApiCaller.new('cards/getbypan').post(pan:)
       new(token: result['card_token'])
     end
 
@@ -23,7 +23,7 @@ module Marqeta
     end
 
     def show_pan(show_cvv_number: false)
-      self.attributes_hash = ApiCaller.new("cards/#{token}/showpan", show_cvv_number: show_cvv_number).get
+      self.attributes_hash = ApiCaller.new("cards/#{token}/showpan", show_cvv_number:).get
     end
 
     def create_client_access
