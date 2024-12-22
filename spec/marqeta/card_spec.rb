@@ -32,6 +32,22 @@ describe Marqeta::Card do
         expect(card.token).to eq(card_token)
       end
     end
+
+    describe '.update_state' do
+      subject { described_class.update_state(card_token, payload) }
+
+      let(:api_caller) { instance_double(Marqeta::ApiCaller, post: response) }
+      let(:payload) { { state: 'ACTIVE' } }
+      let(:response) { { token: double } }
+
+      before do
+        allow(Marqeta::ApiCaller).to receive(:new).and_return(api_caller)
+      end
+
+      it 'creates an ApiCaller with the cardtransitions endpoint' do
+        expect(subject).to have_attributes(token: response[:token])
+      end
+    end
   end
 
   describe 'instance methods' do

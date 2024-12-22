@@ -14,6 +14,11 @@ module Marqeta
       new(token: result['card_token'])
     end
 
+    def self.update_state(card_token, payload)
+      result = ApiCaller.new('cardtransitions').post({ card_token:, **payload })
+      new(result)
+    end
+
     def active?
       state == ACTIVE_STATE && Time.now < expiration_time
     end
