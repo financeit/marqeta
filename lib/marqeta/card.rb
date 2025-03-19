@@ -1,5 +1,6 @@
 require 'marqeta/api_object'
 require 'marqeta/client_access'
+require 'marqeta/card_transition'
 
 module Marqeta
   class Card < ApiObject
@@ -28,6 +29,15 @@ module Marqeta
 
     def create_client_access
       ClientAccess.api_create(card_token: token)
+    end
+
+    def terminate
+      CardTransition.api_create(
+        card_token: token,
+        state: 'TERMINATED',
+        channel: 'API',
+        reason_code: '10' # Card was reported lost
+      )
     end
 
     private
