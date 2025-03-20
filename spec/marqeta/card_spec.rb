@@ -143,5 +143,12 @@ describe Marqeta::Card do
         card.create_client_access
       end
     end
+
+    describe '#terminate' do
+      it "creates a CardTransition resource passing in the card's token and params for termination" do
+        expect(Marqeta::CardTransition).to receive(:api_create).with(card_token: card_token, state: 'TERMINATED', channel: 'API', reason_code: '10')
+        card.terminate
+      end
+    end
   end
 end
