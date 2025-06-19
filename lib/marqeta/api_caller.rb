@@ -7,7 +7,11 @@ module Marqeta
     def initialize(endpoint, params = {})
       @endpoint = endpoint
       @connection = Faraday.new(url: Marqeta.configuration.base_url) do |conn|
-        conn.request :basic_auth, Marqeta.configuration.username, Marqeta.configuration.password
+        if Gem::Version.new(Faraday::VERSION) >= Gem::Version.new("2")
+          conn.request :authorization, :basic, Marqeta.configuration.username, Marqeta.configuration.password
+        else
+          conn.request :basic_auth, Marqeta.configuration.username, Marqeta.configuration.password
+        end
         conn.response :logger, logger
         conn.params = params
         conn.headers['Content-Type'] = 'application/json'
