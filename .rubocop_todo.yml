@@ -10,7 +10,7 @@
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, IndentationWidth.
 # SupportedStyles: with_first_parameter, with_fixed_indentation
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   Exclude:
     - 'lib/marqeta.rb'
 
@@ -22,7 +22,7 @@ Layout/EmptyLineAfterGuardClause:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Layout/LeadingBlankLines:
+Layout/LeadingEmptyLines:
   Exclude:
     - 'marqeta.gemspec'
 
@@ -52,7 +52,7 @@ Naming/MemoizedInstanceVariableName:
 # Offense count: 2
 # Configuration parameters: MinNameLength, AllowNamesEndingInNumbers, AllowedNames, ForbiddenNames.
 # AllowedNames: io, id, to, by, on, in, at, ip, db
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   Exclude:
     - 'lib/marqeta/api_caller.rb'
 
