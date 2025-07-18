@@ -271,7 +271,7 @@ describe Marqeta::Transaction do
     describe '#pending?' do
       context 'when state is not pending state' do
         it 'returns false' do
-          expect(transaction.pending?).to eq(false)
+          expect(transaction.pending?).to be(false)
         end
       end
 
@@ -279,7 +279,7 @@ describe Marqeta::Transaction do
         let(:state) { Marqeta::Transaction::PENDING_STATE }
 
         it 'returns true' do
-          expect(transaction.pending?).to eq(true)
+          expect(transaction.pending?).to be(true)
         end
       end
     end
@@ -287,7 +287,7 @@ describe Marqeta::Transaction do
     describe '#declined?' do
       context 'when state is not declined state' do
         it 'returns false' do
-          expect(transaction.declined?).to eq(false)
+          expect(transaction.declined?).to be(false)
         end
       end
 
@@ -295,7 +295,7 @@ describe Marqeta::Transaction do
         let(:state) { Marqeta::Transaction::DECLINED_STATE }
 
         it 'returns true' do
-          expect(transaction.declined?).to eq(true)
+          expect(transaction.declined?).to be(true)
         end
       end
     end
@@ -303,7 +303,7 @@ describe Marqeta::Transaction do
     describe '#declined_by_jit?' do
       context 'when state is not declined and gateway_response_code is not DECLINED_BY_JIT' do
         it 'returns false' do
-          expect(transaction.declined_by_jit?).to eq(false)
+          expect(transaction.declined_by_jit?).to be(false)
         end
       end
 
@@ -311,7 +311,7 @@ describe Marqeta::Transaction do
         let(:state) { Marqeta::Transaction::DECLINED_STATE }
 
         it 'returns false' do
-          expect(transaction.declined_by_jit?).to eq(false)
+          expect(transaction.declined_by_jit?).to be(false)
         end
       end
 
@@ -319,7 +319,7 @@ describe Marqeta::Transaction do
         let(:gateway_response_code) { Marqeta::GatewayResponseCodes::DECLINED_BY_JIT }
 
         it 'returns false' do
-          expect(transaction.declined_by_jit?).to eq(false)
+          expect(transaction.declined_by_jit?).to be(false)
         end
       end
 
@@ -328,7 +328,7 @@ describe Marqeta::Transaction do
         let(:gateway_response_code) { Marqeta::GatewayResponseCodes::DECLINED_BY_JIT }
 
         it 'returns true' do
-          expect(transaction.declined_by_jit?).to eq(true)
+          expect(transaction.declined_by_jit?).to be(true)
         end
       end
     end
@@ -338,13 +338,13 @@ describe Marqeta::Transaction do
         let(:gpa_order) { nil }
 
         it 'returns false' do
-          expect(transaction.timeout?).to eq(false)
+          expect(transaction.timeout?).to be(false)
         end
       end
 
       context 'when gpa_order is not nil and gateway_response_code is not TIMEOUT' do
         it 'returns false' do
-          expect(transaction.timeout?).to eq(false)
+          expect(transaction.timeout?).to be(false)
         end
       end
 
@@ -352,7 +352,7 @@ describe Marqeta::Transaction do
         let(:gateway_response_code) { Marqeta::GatewayResponseCodes::TIMEOUT }
 
         it 'returns true' do
-          expect(transaction.timeout?).to eq(true)
+          expect(transaction.timeout?).to be(true)
         end
       end
     end
@@ -362,13 +362,13 @@ describe Marqeta::Transaction do
         let(:gpa_order) { nil }
 
         it 'returns false' do
-          expect(transaction.jit_error?).to eq(false)
+          expect(transaction.jit_error?).to be(false)
         end
       end
 
       context 'when gpa_order is not nil and gateway_response_code is not JIT_ERROR' do
         it 'returns false' do
-          expect(transaction.jit_error?).to eq(false)
+          expect(transaction.jit_error?).to be(false)
         end
       end
 
@@ -376,7 +376,7 @@ describe Marqeta::Transaction do
         let(:gateway_response_code) { Marqeta::GatewayResponseCodes::JIT_ERROR }
 
         it 'returns true' do
-          expect(transaction.jit_error?).to eq(true)
+          expect(transaction.jit_error?).to be(true)
         end
       end
     end
@@ -384,7 +384,7 @@ describe Marqeta::Transaction do
     describe '#exceeding_amount_limit?' do
       context 'when response_code is not EXCEEDING_AMOUNT_LIMIT' do
         it 'returns false' do
-          expect(transaction.exceeding_amount_limit?).to eq(false)
+          expect(transaction.exceeding_amount_limit?).to be(false)
         end
       end
 
@@ -392,7 +392,7 @@ describe Marqeta::Transaction do
         let(:response_code) { Marqeta::TransactionResponseCodes::EXCEEDING_AMOUNT_LIMIT }
 
         it 'returns true' do
-          expect(transaction.exceeding_amount_limit?).to eq(true)
+          expect(transaction.exceeding_amount_limit?).to be(true)
         end
       end
     end
@@ -400,7 +400,7 @@ describe Marqeta::Transaction do
     describe '#exceeding_count_limit?' do
       context 'when response_code is not EXCEEDING_COUNT_LIMIT' do
         it 'returns false' do
-          expect(transaction.exceeding_count_limit?).to eq(false)
+          expect(transaction.exceeding_count_limit?).to be(false)
         end
       end
 
@@ -408,7 +408,7 @@ describe Marqeta::Transaction do
         let(:response_code) { Marqeta::TransactionResponseCodes::EXCEEDING_COUNT_LIMIT }
 
         it 'returns true' do
-          expect(transaction.exceeding_count_limit?).to eq(true)
+          expect(transaction.exceeding_count_limit?).to be(true)
         end
       end
     end
@@ -422,7 +422,7 @@ describe Marqeta::Transaction do
         end
 
         it 'returns nil' do
-          expect(transaction.gateway_duration).to eq(nil)
+          expect(transaction.gateway_duration).to be_nil
         end
       end
 
@@ -442,7 +442,7 @@ describe Marqeta::Transaction do
         end
 
         it 'returns nil' do
-          expect(transaction.gateway_response_memo).to eq(nil)
+          expect(transaction.gateway_response_memo).to be_nil
         end
       end
 
@@ -462,7 +462,7 @@ describe Marqeta::Transaction do
     describe '#channel' do
       context 'when the channel is not present' do
         it 'returns nil' do
-          expect(transaction.channel).to eq(nil)
+          expect(transaction.channel).to be_nil
         end
       end
 
@@ -482,7 +482,7 @@ describe Marqeta::Transaction do
     describe '#force_capture?' do
       context 'when method is not force capture' do
         it 'returns false' do
-          expect(transaction.force_capture?).to eq(false)
+          expect(transaction.force_capture?).to be(false)
         end
       end
 
@@ -490,7 +490,7 @@ describe Marqeta::Transaction do
         let(:method) { 'pgfs.force_capture' }
 
         it 'returns true' do
-          expect(transaction.force_capture?).to eq(true)
+          expect(transaction.force_capture?).to be(true)
         end
       end
 
@@ -498,7 +498,7 @@ describe Marqeta::Transaction do
         let(:jit_funding) { nil }
 
         it 'returns false' do
-          expect(transaction.force_capture?).to eq(false)
+          expect(transaction.force_capture?).to be(false)
         end
       end
     end

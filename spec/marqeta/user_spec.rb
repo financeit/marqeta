@@ -65,7 +65,7 @@ describe Marqeta::User do
 
   describe '#metadata_attribute' do
     it 'returns nil if there is no metadata' do
-      expect(user.metadata_attribute(:foo)).to eq(nil)
+      expect(user.metadata_attribute(:foo)).to be_nil
     end
 
     context 'when metadata is present' do
@@ -76,7 +76,7 @@ describe Marqeta::User do
       end
 
       it 'returns nil if metadata attribute is not present' do
-        expect(user.metadata_attribute(:baz)).to eq(nil)
+        expect(user.metadata_attribute(:baz)).to be_nil
       end
     end
   end
