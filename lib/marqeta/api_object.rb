@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'marqeta/api_caller'
 require 'time'
 
@@ -71,7 +73,7 @@ module Marqeta
 
     def symbolized_attributes_hash
       new_array = []
-      attributes_hash.each{ |k, v| new_array << [k.to_sym, v] }
+      attributes_hash.each { |k, v| new_array << [k.to_sym, v] }
       Hash[new_array]
     end
 

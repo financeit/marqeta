@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Marqeta::Transaction do
   after(:each) { disable_webhooks }
 

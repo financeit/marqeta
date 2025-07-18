@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Marqeta::User do
   subject(:user) { Marqeta::User.new(token: user_token, metadata: metadata) }
 
@@ -33,10 +35,10 @@ describe Marqeta::User do
     it 'allows passing in extra parameters' do
       extra_params = { foo: 'bar' }
       expect(Marqeta::User).to receive(:api_create).with({
-        parent_token: user_token,
-        uses_parent_account: false,
-        foo: 'bar',
-      })
+                                                           parent_token: user_token,
+                                                           uses_parent_account: false,
+                                                           foo: 'bar'
+                                                         })
       user.create_child(extra_params)
     end
   end
