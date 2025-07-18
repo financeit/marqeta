@@ -40,7 +40,7 @@ module Marqeta
 
     private
 
-    attr_reader :endpoint, :connection
+    attr_reader :endpoint
 
     def perform_action
       response = yield
