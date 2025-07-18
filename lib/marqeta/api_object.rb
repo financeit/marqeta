@@ -47,7 +47,7 @@ module Marqeta
       results.map { |data_hash| klass.new(data_hash) }
     end
 
-    def method_missing(method_name, *args, &block)
+    def method_missing(method_name, *args, &)
       if respond_to_missing?(method_name)
         attribute_value(method_name)
       else
@@ -72,9 +72,8 @@ module Marqeta
     end
 
     def symbolized_attributes_hash
-      new_array = []
-      attributes_hash.each { |k, v| new_array << [k.to_sym, v] }
-      Hash[new_array]
+      new_array = attributes_hash.map { |k, v| [k.to_sym, v] }
+      new_array.to_h
     end
 
     def attribute_value(attribute)

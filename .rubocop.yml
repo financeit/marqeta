@@ -2,6 +2,8 @@ plugins: rubocop-rspec
 
 inherit_from: .rubocop_todo.yml
 
+AllCops:
+    NewCops: enable
 RSpec/DescribedClass:
   EnforcedStyle: explicit
 Style/StringLiterals:
