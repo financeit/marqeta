@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'faraday'
 require 'marqeta/errors'
@@ -39,17 +41,14 @@ module Marqeta
     private
 
     attr_reader :endpoint
-    attr_reader :connection
 
     def perform_action
-      begin
-        response = yield
-        handle_successful_response response
-      rescue Faraday::ClientError => e
-        handle_exception_with_response(e)
-      rescue *HttpError::ERROR_LIST => e
-        handle_http_error e
-      end
+      response = yield
+      handle_successful_response response
+    rescue Faraday::ClientError => e
+      handle_exception_with_response(e)
+    rescue *HttpError::ERROR_LIST => e
+      handle_http_error e
     end
 
     def connection

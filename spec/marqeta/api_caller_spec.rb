@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 describe Marqeta::ApiCaller do
   subject(:api_caller) { Marqeta::ApiCaller.new(endpoint, params) }
 
