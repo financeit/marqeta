@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'marqeta/api_caller'
 require 'marqeta/api_object'
 require 'marqeta/gateway_response_codes'
@@ -7,10 +5,10 @@ require 'marqeta/transaction_response_codes'
 
 module Marqeta
   class Transaction < ApiObject
-    PENDING_STATE = 'PENDING'
-    DECLINED_STATE = 'DECLINED'
+    PENDING_STATE = 'PENDING'.freeze
+    DECLINED_STATE = 'DECLINED'.freeze
 
-    FORCE_CAPTURE_METHOD = 'pgfs.force_capture'
+    FORCE_CAPTURE_METHOD = 'pgfs.force_capture'.freeze
 
     CardAcceptor = Struct.new(:name)
 
@@ -92,12 +90,12 @@ module Marqeta
 
     def gateway_duration
       log = gateway_log
-      log&.fetch('duration')
+      log.fetch('duration') unless log.nil?
     end
 
     def gateway_response_memo
       log = gateway_log
-      log&.fetch('message')
+      log.fetch('message') unless log.nil?
     end
 
     def response_memo
@@ -139,7 +137,7 @@ module Marqeta
 
     def gateway_response_code
       log = gateway_log
-      log&.fetch('response')&.fetch('code')
+      log.fetch('response').fetch('code') unless log.nil?
     end
 
     def response_code

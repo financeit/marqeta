@@ -1,6 +1,5 @@
-# frozen_string_literal: true
 
-lib = File.expand_path('lib', __dir__)
+lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require "marqeta/version"
 
@@ -40,5 +39,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency "faraday"
 
   spec.required_ruby_version = '>= 3.1.0'
-  spec.metadata['rubygems_mfa_required'] = 'true'
 end
