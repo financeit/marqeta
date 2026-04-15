@@ -40,7 +40,8 @@ describe Marqeta::Card do
         token: card_token,
         state: state,
         pin_is_set: pin_is_set,
-        expiration_time: expiration_time
+        expiration_time: expiration_time,
+        metadata: metadata
       )
     end
 
@@ -48,6 +49,7 @@ describe Marqeta::Card do
     let(:pin_is_set) { true }
     let(:expiration_time) { not_expired_time }
     let(:not_expired_time) { (Time.now + 3600).to_s }
+    let(:metadata) { nil }
 
     describe '#active?' do
       let(:active?) { card.active? }
@@ -148,6 +150,24 @@ describe Marqeta::Card do
       it "creates a CardTransition resource passing in the card's token and params for termination" do
         expect(Marqeta::CardTransition).to receive(:api_create).with(card_token: card_token, state: 'TERMINATED', channel: 'API', reason_code: '10')
         card.terminate
+      end
+    end
+
+    describe '#metadata_attribute' do
+      it 'returns nil if there is no metadata' do
+        expect(card.metadata_attribute(:foo)).to be_nil
+      end
+
+      context 'when metadata is present' do
+        let(:metadata) { { 'foo' => 'bar' } }
+
+        it 'returns correct metadata attribute value if present' do
+          expect(card.metadata_attribute(:foo)).to eq('bar')
+        end
+
+        it 'returns nil if metadata attribute is not present' do
+          expect(card.metadata_attribute(:baz)).to be_nil
+        end
       end
     end
   end

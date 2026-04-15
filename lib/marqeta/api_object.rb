@@ -57,6 +57,13 @@ module Marqeta
       accessible_attributes.include?(method_name) || super
     end
 
+    def metadata_attribute(key)
+      metadata = symbolized_attributes_hash[:metadata]
+      return nil if metadata.nil?
+
+      metadata[key.to_s]
+    end
+
     private
 
     attr_accessor :attributes_hash
