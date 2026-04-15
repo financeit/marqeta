@@ -30,12 +30,6 @@ module Marqeta
       OneTime.api_create(user_token: token)
     end
 
-    def metadata_attribute(key)
-      metadata = symbolized_attributes_hash[:metadata]
-      return nil if metadata.nil?
-      metadata[key.to_s]
-    end
-
     private
 
     def accessible_attributes
