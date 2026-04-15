@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
 module Marqeta
   class TransactionChannels
-    ECOMMERCE = 'ECOMMERCE'
+    ECOMMERCE = 'ECOMMERCE'.freeze
   end
 end

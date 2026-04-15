@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 module Marqeta
   class TransactionResponseCodes
-    EXCEEDING_AMOUNT_LIMIT = '1834'
-    EXCEEDING_COUNT_LIMIT = '1817'
+    EXCEEDING_AMOUNT_LIMIT = '1834'.freeze
+    EXCEEDING_COUNT_LIMIT = '1817'.freeze
   end
 end

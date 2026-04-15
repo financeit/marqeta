@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'marqeta/api_object'
 
 module Marqeta
@@ -35,7 +33,6 @@ module Marqeta
     def metadata_attribute(key)
       metadata = symbolized_attributes_hash[:metadata]
       return nil if metadata.nil?
-
       metadata[key.to_s]
     end
 

@@ -1,12 +1,10 @@
-# frozen_string_literal: true
-
 require 'marqeta/api_object'
 require 'marqeta/client_access'
 require 'marqeta/card_transition'
 
 module Marqeta
   class Card < ApiObject
-    ACTIVE_STATE = 'ACTIVE'
+    ACTIVE_STATE = 'ACTIVE'.freeze
 
     def self.endpoint
       'cards'

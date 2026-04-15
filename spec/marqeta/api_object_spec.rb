@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require 'marqeta/api_object'
 
 describe Marqeta::ApiObject do
@@ -62,7 +60,7 @@ describe Marqeta::ApiObject do
       it 'creates an ApiCaller with the endpoint' do
         expect(Marqeta::ApiCaller)
           .to(receive(:new))
-          .with("#{endpoint}/#{token}")
+          .with(endpoint + '/' + token)
           .and_call_original
         api_retrieve
       end
@@ -97,7 +95,7 @@ describe Marqeta::ApiObject do
       it 'creates an ApiCaller with the endpoint' do
         expect(Marqeta::ApiCaller)
           .to(receive(:new))
-          .with("#{endpoint}/#{token}")
+          .with(endpoint + '/' + token)
           .and_call_original
         Marqeta::ApiObject.api_update(token, payload)
       end

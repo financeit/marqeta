@@ -1,9 +1,7 @@
-# frozen_string_literal: true
-
 module Marqeta
   class GatewayResponseCodes
-    DECLINED_BY_JIT = '402'
-    TIMEOUT = '97'
-    JIT_ERROR = '96'
+    DECLINED_BY_JIT = '402'.freeze
+    TIMEOUT = '97'.freeze
+    JIT_ERROR = '96'.freeze
   end
 end
