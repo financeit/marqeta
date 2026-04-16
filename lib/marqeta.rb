@@ -29,7 +29,7 @@ module Marqeta
     end
 
     def configuration
-      @configuration ||= Configuration.new
+      @_configuration ||= Configuration.new
     end
   end
 end

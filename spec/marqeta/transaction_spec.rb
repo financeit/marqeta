@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 describe Marqeta::Transaction do
-  after { disable_webhooks }
+  after(:each) { disable_webhooks }
 
   describe 'class methods' do
     describe '.index' do

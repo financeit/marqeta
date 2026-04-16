@@ -79,8 +79,9 @@ module Marqeta
     end
 
     def symbolized_attributes_hash
-      hash = attributes_hash.respond_to?(:to_unsafe_h) ? attributes_hash.to_unsafe_h : attributes_hash.to_h
-      hash.transform_keys(&:to_sym)
+      new_array = []
+      attributes_hash.each { |k, v| new_array << [k.to_sym, v] }
+      new_array.to_h
     end
 
     def attribute_value(attribute)
