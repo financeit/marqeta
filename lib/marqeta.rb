@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'marqeta/card'
 require 'marqeta/client_access'
 require 'marqeta/gateway_response_codes'
@@ -11,13 +13,13 @@ require 'marqeta/version'
 module Marqeta
   class Configuration
     attr_accessor :username,
-      :password,
-      :base_url,
-      :dashboard_base_url,
-      :logger,
-      :webhook_endpoint,
-      :webhook_username,
-      :webhook_password
+                  :password,
+                  :base_url,
+                  :dashboard_base_url,
+                  :logger,
+                  :webhook_endpoint,
+                  :webhook_username,
+                  :webhook_password
   end
 
   class << self
@@ -27,7 +29,7 @@ module Marqeta
     end
 
     def configuration
-      @_configuration ||= Configuration.new
+      @configuration ||= Configuration.new
     end
   end
 end

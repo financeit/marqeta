@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Marqeta
   require 'net/http'
 
@@ -17,6 +19,7 @@ module Marqeta
   class ApiError < StandardError
     def initialize(response)
       @response = response
+      super(to_s)
     end
 
     def http_code
