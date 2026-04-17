@@ -1,12 +1,17 @@
-require: rubocop-rspec
+plugins: rubocop-rspec
 
 inherit_from: .rubocop_todo.yml
 
+AllCops:
+    NewCops: enable
+    SuggestExtensions: false
 RSpec/DescribedClass:
   EnforcedStyle: explicit
 Style/StringLiterals:
   Enabled: false
 Style/Documentation:
   Enabled: false
-Metrics/LineLength:
+Style/MapIntoArray:
+  Enabled: false
+Layout/LineLength:
   Max: 120
