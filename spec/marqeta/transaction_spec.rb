@@ -258,7 +258,7 @@ describe Marqeta::Transaction do
     end
     let(:state) { 'RANDOM_STATE' }
     let(:gateway_duration) { 1000 }
-    let(:gateway_response_memo) { "RANDOM_GATEWAY_RESPONSE_MEMO" }
+    let(:gateway_response_memo) { 'RANDOM_GATEWAY_RESPONSE_MEMO' }
     let(:gateway_response_code) { 'RANDOM_GATEWAY_RESPONSE_CODE' }
     let(:response_memo) { 'RANDOM_RESPONSE_MEMO' }
     let(:response_code) { 'RANDOM_RESPONSE_CODE' }
@@ -505,9 +505,9 @@ describe Marqeta::Transaction do
   end
 
   def enable_webhooks
-    Marqeta.configuration.webhook_endpoint = "https://example.com/webhook"
-    Marqeta.configuration.webhook_username = "username"
-    Marqeta.configuration.webhook_password = "password"
+    Marqeta.configuration.webhook_endpoint = 'https://example.com/webhook'
+    Marqeta.configuration.webhook_username = 'username'
+    Marqeta.configuration.webhook_password = 'password'
   end
 
   def disable_webhooks
@@ -526,9 +526,9 @@ describe Marqeta::Transaction do
 
   def webhook
     {
-      endpoint: "https://example.com/webhook",
-      username: "username",
-      password: "password"
+      endpoint: 'https://example.com/webhook',
+      username: 'username',
+      password: 'password'
     }
   end
 end
