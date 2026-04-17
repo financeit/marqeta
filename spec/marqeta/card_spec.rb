@@ -91,13 +91,13 @@ describe Marqeta::Card do
     end
 
     describe '#pin_is_set?' do
-      context "when card pin is set" do
+      context 'when card pin is set' do
         it 'returns true' do
           expect(card.pin_is_set?).to be(true)
         end
       end
 
-      context "when card pin is not set" do
+      context 'when card pin is not set' do
         let(:pin_is_set) { false }
 
         it 'returns false' do
