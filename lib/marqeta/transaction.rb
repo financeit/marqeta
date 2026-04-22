@@ -30,6 +30,12 @@ module Marqeta
       ApiCaller.new('simulate/authorization').post(payload)
     end
 
+    def self.simulate_card_authorization(payload)
+      payload[:webhook] = webhook if webhook_configured?
+
+      ApiCaller.new('simulations/cardtransactions/authorization').post(payload)
+    end
+
     def self.simulate_reversal(payload)
       payload[:webhook] = webhook if webhook_configured?
 
